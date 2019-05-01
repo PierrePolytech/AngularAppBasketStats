@@ -1,0 +1,58 @@
+<div *ngIf="club" class="custom-container-2">
+	<div class="div_header_club">
+		<div class="div_photo_couverture">
+            <img src="assets/img/fond.jpg">
+        </div>
+        <div class="div_logo_club">
+            <img class="logo_club" src="assets/img/logo_club.png">
+        </div>
+        <div class="div_infos_club">
+            <h1 class="Infos_club nomClub">{{club.nom}}</h1>
+            <p class="Infos_club sport">
+                <span class="Titre_Infos_club">Sport : </span>{{club.sport}}
+            </p>
+            <p class="Infos_club region">
+                <span class="Titre_Infos_club">Région : </span>{{club.villes[0].region}}
+            </p>
+            <p class="Infos_club departement">
+                <span class="Titre_Infos_club">Département : </span>{{club.villes[0].departement}} ({{club.villes[0].codeDepartement}})
+            </p>
+            <p class="Infos_club ville">
+               <span class="Titre_Infos_club">Ville : </span><span *ngFor="let ville of club.villes ; let isLast=last">{{ville.nom}} ({{ville.codePostal}}) {{isLast ? '' : ', '}}</span>    
+            </p>
+        </div>
+    </div>
+    <div class="div_navigation_club">
+        <ul id="nav_site_secondaire" class="nav nav-justified navbar-light bg-light">
+            <li class="nav-item">
+                <a class="nav-link"  (click)="getAffichageEquipes()">Equipes</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" (click)="getAffichageJoueurs()">Joueurs</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" (click)="getAffichageMatchs()">Matchs</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" (click)="getAffichageCalendrier()">Calendrier</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" (click)="getAffichageActus()">Actualités</a>
+            </li>
+        </ul>
+    </div>
+    <div class="div_body_club" [ngSwitch]="affichageMenu">
+        <div *ngSwitchCase="'Equipes'">
+            <app-vue-equipe-of-club></app-vue-equipe-of-club>
+        </div>
+        <div *ngSwitchCase="'Joueurs'">
+            <app-vue-joueur-of-club></app-vue-joueur-of-club>
+        </div>
+        <div *ngSwitchCase="'Calendrier'">Calendrier</div>
+        <div *ngSwitchCase="'Matchs'">
+            <app-vue-match-of-club></app-vue-match-of-club>
+        </div>
+        <div *ngSwitchCase="'Stats'">Stats</div>
+        <div *ngSwitchCase="'Actus'">Actus</div>
+    </div>
+</div>

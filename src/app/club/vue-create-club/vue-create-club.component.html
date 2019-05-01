@@ -1,0 +1,66 @@
+
+<div class="container">
+    <div class="div-form-create">
+        <form class="form-club" [formGroup]="clubForm" (ngSubmit)="onSubmit()">
+            <mat-form-field class="full-width">
+                <input formControlName="nom" matInput placeholder="Nom du club">
+            </mat-form-field>
+            <mat-form-field class="full-width">
+                <input formControlName="codeClub" matInput placeholder="Code du club">
+            </mat-form-field>
+            <!--<div class="div-ville">
+                <mat-form-field class="full-width ville-club" id="ville1">
+                    <input matInput formControlName="ville" type="search" id="inputVille1" class="form-control" placeholder="Ville" />
+                </mat-form-field>
+            </div>-->
+            <mat-form-field class="full-width">
+                <mat-label>Sport</mat-label>
+                <mat-select name="sports" formControlName="sport">
+                    <mat-option *ngFor="let keySports of keysSports" [value]="keySports">
+                        {{sports[keySports]}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <button type="submit" class="btn btn-success create-club"> <i class="fa fa-plus-circle"></i> Créer le club</button>
+        </form>
+    </div>
+    <div class="div-diapo">
+        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+            <ol class="carousel-indicators">
+                <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+            </ol>
+            <div class="carousel-inner" role="listbox">
+                <div class="carousel-item active">
+                    <img class="d-block img-fluid" src="assets/img/fondlogin1.jpg">
+                    <div class="carousel-caption d-none d-md-block">
+                        <div class="banner-text">
+                            <h2>Gérer votre équipe et vos membres</h2>
+                            <p class="text">Simplifiez la gestion de vos équipes et membres</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img class="d-block img-fluid" src="assets/img/fondlogin2.jpg">
+                    <div class="carousel-caption d-none d-md-block">
+                        <div class="banner-text">
+                            <h2>Gérer la vie de votre équipe</h2>
+                            <p class="text">Facilité la vie de vos responsables d'équipes (Calendrier, Gestion des présences, Convocations aux matchs, ...)</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img class="d-block img-fluid" src="assets/img/fondlogin2.jpg">
+                    <div class="carousel-caption d-none d-md-block">
+                        <div class="banner-text">
+                            <h2>Suivi de vos joueurs</h2>
+                            <p class="text">Ouvré un ensemble de fonctionnalités à vos joueurs (Gestion de ses statistiques, notification des évenements du club, ...)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

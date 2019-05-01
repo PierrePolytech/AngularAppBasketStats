@@ -1,0 +1,99 @@
+.row-margin{
+    margin-bottom: 15px;
+    margin-top: 15px;
+}
+/*NAVBAR*/
+#span-username{
+    font-weight: 700;
+    color: #66757f;
+}
+.fa-compte{
+    color: #66757f;
+}
+.nav_co_left{
+    display: inherit;
+}
+#sidebarCollapse{
+    margin: 3%;
+    background-color: #f8f9fa;
+    color: #bbb;
+    border: #bbb 1px solid;
+}
+#button_connection,#button_deco{
+    color: #66757f;
+    font-weight: 700;
+    font-size: 80%;
+}
+
+#button_inscription{
+    background-color: #D23636;
+    color: #fff;
+    font-size: 80%;
+    padding: .3rem .5rem;
+    border-radius: 100px;
+    font-weight: bold;
+}
+#titre_nav{
+    font-weight: 900;
+    color: #66757f;
+    font-size: 150%;
+    margin-left: 3%;
+}
+#nav_site{
+    padding: 0;
+}
+
+#nav_site_secondaire{
+    text-transform: uppercase;
+    font-weight: 700;
+    color: #bbb;
+}
+
+a, a:hover, a:focus {
+    color: inherit;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+.navbar {
+    padding: 15px 10px;
+    background: #fff;
+    border: none;
+    border-radius: 0;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-btn {
+    box-shadow: none;
+    outline: none !important;
+    border: none;
+}
+
+.line {
+    width: 100%;
+    height: 1px;
+    border-bottom: 1px dashed #ddd;
+    margin: 40px 0;
+}
+
+.li-account {
+    list-style: none;
+    display: inline-block;
+    margin-right: 10px;
+}
+
+#info-account {
+    display: inline-block;
+    padding: 0;
+    margin: 0;
+}
+
+
+.nav-item:hover, .nav-item:focus {
+    color: #66757f;
+    border-bottom: 3px solid #66757f;
+    margin: 0;
+}
+.nav-item{
+    margin-bottom: 3px;
+}

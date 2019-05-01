@@ -1,0 +1,21 @@
+.custom-container-2{
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-top: 2%;
+}
+.div_photo_equipe{
+    display: inline-block;
+    width: 20%;
+    vertical-align: top;
+}
+
+.photo_equipe{
+    width: 100%;
+}
+
+.div_infos_equipe{
+    display: inline-block;
+    width: 80%;
+    padding-top: 1%;
+    padding-left: 2%;
+}

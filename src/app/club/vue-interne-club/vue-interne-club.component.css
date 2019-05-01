@@ -1,0 +1,36 @@
+.div_photo_couverture>img{
+    width: 100%;
+    height: auto;
+    padding:0;
+}
+
+.div_infos_club{
+    width: 80%;
+    height: 40%;
+    background-color: white;
+    display: inline-block;
+    text-align: left;
+}
+
+.div_logo_club{
+    margin-left: 8%;
+    width: 12%;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+    background-color: white;
+    border-radius: 50%;
+    position: absolute;
+}
+
+.logo_club{
+    width: 100%;
+    height: auto;
+}
+
+.div_infos_club{
+    margin-left: 20%;
+}
+
+.Titre_Infos_club{
+    font-weight: 650;
+}

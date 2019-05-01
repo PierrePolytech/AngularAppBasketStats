@@ -1,0 +1,22 @@
+<table>
+    <thead>
+        <tr>
+            <th scope="col">Date</th>
+            <th scope="col">Heure</th>
+            <th scope="col">Equipe</th>
+            <th scope="col">Adversaire</th>
+            <th scope="col">Résultat</th>
+            <th scope="col">Score</th>
+        </tr>
+    </thead>
+  <tbody>
+    <tr  *ngFor="let match of matchs">
+      <td>{{match.dateMatch}}</td>
+      <td>{{match.heureMatch}}</td>
+      <td>{{match.equipe.nom}}</td>
+      <td>{{match.adversaire}}</td>
+      <td>V</td>
+      <td>{{match.scoreEquipe}} - {{match.scoreAdversaire}}</td>
+    </tr>
+  </tbody>
+</table>

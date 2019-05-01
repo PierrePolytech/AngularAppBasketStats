@@ -1,0 +1,39 @@
+<div *ngIf="equipe" class="custom-container-2">
+	<div class="div_header_club">
+        <div class="div_photo_equipe">
+            <img class="photo_equipe" src="assets/img/photo_equipe.jpg">
+        </div>
+        <div class="div_infos_equipe">
+            <p class="Infos_equipe">{{equipe.nom}}</p>
+            <p class="Infos_equipe">Région: {{equipe.club.villes[0].region}}</p>
+            <p class="Infos_equipe">Département: {{equipe.club.villes[0].departement}}</p>
+            <p class="Infos_equipe">Ville: {{equipe.club.villes[0].nom}}</p>
+        </div>
+    </div>
+    <div class="div_navigation_equipe">
+        <ul id="nav_site_secondaire" class="nav nav-justified navbar-light bg-light">
+            <li class="nav-item">
+                <a class="nav-link"  (click)="getAffichageJoueurs()">Joueurs</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" (click)="getAffichageMatchs()">Matchs</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" (click)="getAffichageCalendrier()">Calendrier</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" (click)="getAffichageStats()">Statistiques</a>
+            </li>
+        </ul>
+    </div>
+    <div class="div_body_equipe" [ngSwitch]="affichageMenu">
+
+        <div *ngSwitchCase="'Joueurs'">
+            Joueurs
+            <app-vue-joueur-of-equipe></app-vue-joueur-of-equipe>
+        </div>
+        <div *ngSwitchCase="'Calendrier'">Calendrier</div>
+        <div *ngSwitchCase="'Matchs'">Matchs</div>
+        <div *ngSwitchCase="'Stats'">Stats</div>
+    </div>
+</div>

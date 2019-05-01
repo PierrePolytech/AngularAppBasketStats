@@ -1,0 +1,56 @@
+<div class="custom-container-2">
+	<div class="div_header_search_equipe">
+        <h1 class="title_search">Retrouver une équipe inscrite</h1>
+        <div class="form-group row">
+            <div class="col-lg-4 offset-lg-4 col-md-8 offset-md-2 col-sm-12 col-xs-12">
+                <div class="input-group">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button"><i class="fas fa-search"></i></button>
+                    </span>
+                    <input class="form-control" type="text" (keyup)="loadEquipes($event.target.value)" placeholder="Rechercher une équipe">
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-lg-4 offset-lg-4 col-md-8 offset-md-2 col-sm-12 col-xs-12">
+                <a href="/Creation_Equipe" class="btn btn-success create-equipe"> <i class="fa fa-plus-circle"></i> Créer une équipe</a>
+            </div>
+        </div>
+    </div>
+	<div class="container">
+		<div id="result_recherche" class="row">
+			<div class="div_equipe  col-lg-4 col-md-6 col-sm-12 col-xs-12" *ngFor="let equipe of Equipe">
+				<div class="inside_div_equipe">
+					<div class="header_div_equipe">
+						<img class="photo_equipe" src="assets/img/photo_equipe.jpg">
+					</div>
+					<div class="body_div_equipe">
+						<div class="logo_div_equipe">
+							<img class="logo_equipe" src="assets/img/logo_club.png">
+						</div>
+						<span class="Infos_equipe nomEquipe">{{equipe.nom}}</span>
+						<span class="Infos_equipe sport">
+							<i class="fas fa-basketball-ball"></i>
+							{{equipe.club.sport}}
+						</span>
+						<span class="Infos_equipe region">
+							<i class="fas fa-map-marker-alt"></i>
+							{{equipe.club.villes[0].region}}
+						</span>
+						<span class="Infos_equipe departement">
+							<i class="fas fa-map-marker-alt"></i>
+							{{equipe.club.villes[0].codeDepartement}} - {{equipe.club.villes[0].departement}}
+						</span>
+					</div>
+					<div class="footer_div_equipe">
+						<i class="fas fa-sort-down"></i>
+						<a href="/equipe/{{equipe.id}}/interne">
+							Voir plus
+						</a>
+						<i class="fas fa-sort-down"></i>
+					</div>
+				</div>
+			</div>
+		</div>	
+	</div>	
+</div>
