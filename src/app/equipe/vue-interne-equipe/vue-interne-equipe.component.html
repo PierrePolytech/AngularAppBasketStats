@@ -29,11 +29,14 @@
     <div class="div_body_equipe" [ngSwitch]="affichageMenu">
 
         <div *ngSwitchCase="'Joueurs'">
-            Joueurs
             <app-vue-joueur-of-equipe></app-vue-joueur-of-equipe>
         </div>
-        <div *ngSwitchCase="'Calendrier'">Calendrier</div>
-        <div *ngSwitchCase="'Matchs'">Matchs</div>
+        <div *ngSwitchCase="'Calendrier'">
+            <app-vue-event-of-equipe [equipe]="equipe"></app-vue-event-of-equipe>
+        </div>
+        <div *ngSwitchCase="'Matchs'">
+            <app-vue-match-of-equipe></app-vue-match-of-equipe>
+        </div>
         <div *ngSwitchCase="'Stats'">Stats</div>
     </div>
 </div>

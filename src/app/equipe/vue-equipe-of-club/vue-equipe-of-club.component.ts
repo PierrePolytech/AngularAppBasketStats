@@ -1,8 +1,9 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import {EquipeService} from '../../shared/equipe.service';
 import {MatPaginator, MatTableDataSource, MatSort} from '@angular/material';
 import { Equipe } from 'src/app/shared/equipe';
+import { Club } from 'src/app/shared/club';
 
 @Component({
   selector: 'app-vue-equipe-of-club',
@@ -11,9 +12,9 @@ import { Equipe } from 'src/app/shared/equipe';
 })
 export class VueEquipeOfClubComponent implements OnInit {
     displayedColumns: string[] = ['nom', 'category', 'sexe', 'division', 'poule', 'details'];
-
     dataTable = new MatTableDataSource<Equipe>();
-    idClub: number;
+
+    @Input() club: Club;
 
     @ViewChild(MatSort) sort: MatSort;
     @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -32,7 +33,6 @@ export class VueEquipeOfClubComponent implements OnInit {
         this.equipeService.getAllEquipesFromClub(id).subscribe((data: {}) => {
             this.dataTable.data = data as Equipe[];
         });
-        this.idClub = id;
         this.dataTable.paginator = this.paginator;
         this.dataTable.sort = this.sort;
         this.dataTable.filterPredicate = (data: Equipe, filtersJson: string) => {

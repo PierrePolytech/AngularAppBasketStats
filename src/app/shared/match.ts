@@ -1,3 +1,5 @@
+import { Equipe } from './equipe';
+
 export class Match {
     constructor(
         public id: number,
@@ -8,6 +10,7 @@ export class Match {
         public adversaire: string,
         public scoreEquipe: number,
         public scoreAdversaire: number,
-        public infosSup: string
+        public infosSup: string,
+        public equipe: Equipe,
     ) { }
 }

@@ -43,12 +43,14 @@
     </div>
     <div class="div_body_club" [ngSwitch]="affichageMenu">
         <div *ngSwitchCase="'Equipes'">
-            <app-vue-equipe-of-club></app-vue-equipe-of-club>
+            <app-vue-equipe-of-club [club]="club"></app-vue-equipe-of-club>
         </div>
         <div *ngSwitchCase="'Joueurs'">
             <app-vue-joueur-of-club></app-vue-joueur-of-club>
         </div>
-        <div *ngSwitchCase="'Calendrier'">Calendrier</div>
+        <div *ngSwitchCase="'Calendrier'">
+            <app-vue-event-of-club></app-vue-event-of-club>
+        </div>
         <div *ngSwitchCase="'Matchs'">
             <app-vue-match-of-club></app-vue-match-of-club>
         </div>

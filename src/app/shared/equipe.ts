@@ -1,11 +1,17 @@
+import { Club } from './club';
+
 export class Equipe {
-    id: number;
+    constructor(
+        public id: number,
+        public nom: string
+    ) {}
+
     saison: number;
     phase: number;
-    nom: string;
     category: string;
     sexe: string;
     niveau: string;
     division: string;
     poule: string;
+    club: Club;
 }

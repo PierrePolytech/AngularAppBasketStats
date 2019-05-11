@@ -3,7 +3,9 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Match } from '../shared/match';
 import { Event } from '../shared/event';
 import { Observable, throwError } from 'rxjs';
-import { retry, catchError, map } from 'rxjs/operators';
+import { map, retry, catchError } from 'rxjs/operators';
+import { Equipe } from './equipe';
+
 
 @Injectable({
   providedIn: 'root'
@@ -33,35 +35,68 @@ export class EventService {
         item.scoreEquipe,
         item.scoreAdversaire,
         item.infosSup,
+        new Equipe(item.equipe.id, item.equipe.nom),
       )))
     );
   }
 
-  getAllEventsFromClub(id): Observable<Event> {
-    return this.http.get<Event>(this.apiURL + '/club/' + id + '/events')
+  getAllMatchsFromEquipe(id): Observable<Match[]> {
+    return this.http.get(this.apiURL + '/equipe/' + id + '/matchs')
+    .pipe(
+      map((data: any[]) => data.map((item: any) => new Match(
+        item.id,
+        new Date(item.dateMatch),
+        item.domicile,
+        item.heureMatch,
+        item.heureRDV,
+        item.adversaire,
+        item.scoreEquipe,
+        item.scoreAdversaire,
+        item.infosSup,
+        new Equipe(item.equipe.id, item.equipe.nom),
+      )))
+    );
+  }
+
+  getAllEventsFromClub(id): Observable<Event[]> {
+    return this.http.get(this.apiURL + '/club/' + id + '/events')
+    .pipe(
+      map((data: any[]) => data.map((item: any) => new Event(
+        item.id,
+        item.title,
+        new Date(item.dateDebut),
+        new Date(item.dateFin),
+        item.infosSup,
+        {primary: '#1e90ff', secondary: '#D1E8FF'},
+        {beforeStart: false, afterEnd: false},
+        false
+      )))
+    );
+  }
+
+  getAllEventsFromEquipe(id): Observable<Event[]> {
+    return this.http.get(this.apiURL + '/equipe/' + id + '/events')
+    .pipe(
+      map((data: any[]) => data.map((item: any) => new Event(
+        item.id,
+        item.title,
+        new Date(item.dateDebut),
+        new Date(item.dateFin),
+        item.infosSup,
+        {primary: '#1e90ff', secondary: '#D1E8FF'},
+        {beforeStart: false, afterEnd: false},
+        false
+      )))
+    );
+  }
+
+  createEvent(event): Observable<Event> {
+    return this.http.post<Event>(this.apiURL + '/event', JSON.stringify(event), this.httpOptions)
     .pipe(
       retry(1),
       catchError(this.handleError)
     );
   }
-
-  getAllMatchsFromEquipe(id): Observable<Match> {
-    return this.http.get<Match>(this.apiURL + '/equipe/' + id + '/matchs')
-    .pipe(
-      retry(1),
-      catchError(this.handleError)
-    );
-  }
-
-  getAllEventsFromEquipe(id): Observable<Event> {
-    return this.http.get<Event>(this.apiURL + '/equipe/' + id + '/events')
-    .pipe(
-      retry(1),
-      catchError(this.handleError)
-    );
-  }
-
-
 
 
   handleError(error) {

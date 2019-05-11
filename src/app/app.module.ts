@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { NgAisModule } from 'angular-instantsearch';
-
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 // HttpClient module for RESTful API
 import { HttpClientModule } from '@angular/common/http';
@@ -12,6 +12,10 @@ import { AppRoutingModule } from './app-routing.module';
 
 // Forms module
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+// Calendar
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { FlatpickrModule } from 'angularx-flatpickr';
 
 // Components
 
@@ -41,21 +45,18 @@ import { FooterComponent } from './footer/footer.component';
 import { HeaderComponent } from './header/header.component';
 import { VueJoueurOfEquipeComponent } from './joueur/vue-joueur-of-equipe/vue-joueur-of-equipe.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatGoogleMapsAutocompleteModule } from '@angular-material-extensions/google-maps-autocomplete';
-import { AgmCoreModule } from '@agm/core';
 import { VueMatchOfClubComponent } from './event/match/vue-match-of-club/vue-match-of-club.component';
 import { VueMatchOfEquipeComponent } from './event/match/vue-match-of-equipe/vue-match-of-equipe.component';
 import { VueEventOfClubComponent } from './event/vue-event-of-club/vue-event-of-club.component';
 import { VueEventOfEquipeComponent } from './event/vue-event-of-equipe/vue-event-of-equipe.component';
 
+// Calendar
+import { CalendarHeaderComponent } from './calendar/calendar-header.component';
+import { registerLocaleData } from '@angular/common';
+import localeFr from '@angular/common/locales/fr';
+import { VueCreateEventComponent } from './event/vue-create-event/vue-create-event.component';
 
-const googleMapsParams = {
-  apiKey: 'AIzaSyDVafjOTJVq5jbqQiSxyMitBhrf2P3Mhtg',
-  libraries: ['places'],
-  language: 'en',
-  // region: 'DE'
-};
-
+registerLocaleData(localeFr);
 
 @NgModule({
   declarations: [
@@ -80,18 +81,24 @@ const googleMapsParams = {
     VueMatchOfClubComponent,
     VueMatchOfEquipeComponent,
     VueEventOfClubComponent,
-    VueEventOfEquipeComponent
+    VueEventOfEquipeComponent,
+    CalendarHeaderComponent,
+    VueCreateEventComponent
   ],
   imports: [
+    NgbModule,
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
-    MatGoogleMapsAutocompleteModule.forRoot(),
-    AgmCoreModule.forRoot(googleMapsParams),
-    NgAisModule.forRoot()
+    NgAisModule.forRoot(),
+    FlatpickrModule.forRoot(),
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]
