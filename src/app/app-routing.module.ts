@@ -52,16 +52,20 @@ import { VueEditClubComponent } from './club/vue-edit-club/vue-edit-club.compone
 import { VueCreateClubComponent } from './club/vue-create-club/vue-create-club.component';
 
 // import Equipe
-import { VueCreateEquipeComponent } from './equipe/vue-create-equipe/vue-create-equipe.component';
 import { VueEditEquipeComponent } from './equipe/vue-edit-equipe/vue-edit-equipe.component';
 import { VueExterneEquipeComponent } from './equipe/vue-externe-equipe/vue-externe-equipe.component';
 import { VueInterneEquipeComponent } from './equipe/vue-interne-equipe/vue-interne-equipe.component';
 import { VueSearchEquipeComponent } from './equipe/vue-search-equipe/vue-search-equipe.component';
+import { VueCreateEquipeComponent } from './equipe/vue-create-equipe/vue-create-equipe.component';
 
 
 // import Joueur
 import { VueCreateJoueurComponent } from './joueur/vue-create-joueur/vue-create-joueur.component';
 import { VueEditJoueurComponent } from './joueur/vue-edit-joueur/vue-edit-joueur.component';
+
+// import event
+import { VueCreateEventOfClubComponent } from './event/vue-create-event-of-club/vue-create-event-of-club.component';
+import { VueCreateEventOfEquipeComponent } from './event/vue-create-event-of-equipe/vue-create-event-of-equipe.component';
 
 const routes: Routes = [
     { path: '', pathMatch: 'full', redirectTo: 'clubs' },
@@ -72,14 +76,16 @@ const routes: Routes = [
     { path: 'club/:id/interne', component: VueInterneClubComponent },
     { path: 'club/:id/externe', component: VueExterneClubComponent },
 
-    { path: 'club/:id/equipe/create', component: VueCreateEquipeComponent },
-    { path: 'equipes', component: VueSearchEquipeComponent },
+    { path: 'equipe/create', component: VueCreateEquipeComponent },
     { path: 'equipe/:id', component: VueEditEquipeComponent },
     { path: 'equipe/:id/interne', component: VueInterneEquipeComponent },
     { path: 'equipe/:id/externe', component: VueExterneEquipeComponent },
 
     { path: 'joueur/create', component: VueCreateJoueurComponent },
-    { path: 'joueur/:id', component: VueEditJoueurComponent }
+    { path: 'joueur/:id', component: VueEditJoueurComponent },
+
+    { path: 'event/club/create', component: VueCreateEventOfClubComponent },
+    { path: 'event/equipe/create', component: VueCreateEventOfEquipeComponent },
 ];
 
 @NgModule({

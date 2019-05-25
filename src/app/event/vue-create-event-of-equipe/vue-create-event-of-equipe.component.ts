@@ -1,23 +1,22 @@
-import { Component, OnInit, Input, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, ElementRef, ViewChild, Inject } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { EventService } from 'src/app/shared/event.service';
 import { enumTypeEvent } from 'src/app/shared/enum/enumtypeevent';
-import { DateAdapter, MatAutocomplete, MatAutocompleteSelectedEvent, MatChip } from '@angular/material';
+import { DateAdapter, MatAutocomplete, MatAutocompleteSelectedEvent, MatChip, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import * as moment from 'moment';
 import { EventJson } from 'src/app/shared/eventjson';
 import { EquipeService } from 'src/app/shared/equipe.service';
 import { Equipe } from 'src/app/shared/equipe';
 import { Observable } from 'rxjs';
-import { startWith, map, debounceTime } from 'rxjs/operators';
+import { startWith, map } from 'rxjs/operators';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 
 @Component({
-  selector: 'app-vue-create-event',
-  templateUrl: './vue-create-event.component.html',
-  styleUrls: ['./vue-create-event.component.css']
+  selector: 'app-vue-create-event-of-equipe',
+  templateUrl: './vue-create-event-of-equipe.component.html',
+  styleUrls: ['./vue-create-event-of-equipe.component.css']
 })
-export class VueCreateEventComponent implements OnInit {
-
+export class VueCreateEventOfEquipeComponent implements OnInit {
     eventForm = new FormGroup({
         title: new FormControl(''),
         startDate: new FormControl(''),
@@ -26,11 +25,12 @@ export class VueCreateEventComponent implements OnInit {
         endTime: new FormControl(''),
         infosSup: new FormControl(''),
         type: new FormControl(''),
+        recurent: new FormControl('')
     });
+    joursSelected = [];
 
     typeEvents = enumTypeEvent;
     keysTypeEvent = [];
-    @Input() equipe: Equipe;
 
 
     // autocompletion equipe
@@ -45,7 +45,9 @@ export class VueCreateEventComponent implements OnInit {
     constructor(
         public eventService: EventService,
         public equipeService: EquipeService,
-        private adapter: DateAdapter<any>
+        private adapter: DateAdapter<any>,
+        public dialogRef: MatDialogRef<VueCreateEventOfEquipeComponent>,
+        @Inject(MAT_DIALOG_DATA) public data: any
     ) {
         this.keysTypeEvent = Object.keys(this.typeEvents);
      }
@@ -74,13 +76,17 @@ export class VueCreateEventComponent implements OnInit {
         jsonEvent.dateFin = moment(dateFin).format('YYYY-MM-DD HH:mm:ss');
         jsonEvent.infosSup = this.eventForm.value.infosSup;
         jsonEvent.typeEvent = this.eventForm.value.type;
-        this.equipesEvent.map(a => delete a.club);
-        jsonEvent.equipes = this.equipesEvent;
-        console.log(JSON.stringify(jsonEvent));
-        /*this.eventService.createEvent(this.eventForm.value).subscribe(
-            success => alert('Done'),
+        this.equipesEvent.map(a => '{id :' + a.id);
+        jsonEvent.equipes = this.equipesEvent.map(a => new Equipe(a.id));
+        jsonEvent.recurent = this.eventForm.value.recurent;
+        if (this.eventForm.value.recurent) {
+            jsonEvent.freq = 'RRule.WEEKLY';
+            jsonEvent.byweekday = this.createStringRRule();
+        }
+        this.eventService.createEvent(jsonEvent).subscribe(
+            success => this.dialogRef.close(),
             error => alert(error)
-        );*/
+        );
     }
 
     onChange(event) {
@@ -88,8 +94,20 @@ export class VueCreateEventComponent implements OnInit {
     }
 
      loadEquipes() {
-        this.equipeService.getAllEquipesFromClub(this.equipe.club.id).subscribe((data: {}) => {
+        let idClub: number;
+        if (this.data.club != null) {
+            idClub = this.data.club.id;
+        } else {
+            idClub = this.data.equipe.club.id;
+        }
+        this.equipeService.getAllEquipesFromClub(idClub).subscribe((data: {}) => {
             this.equipesNotEvent = data as Equipe[];
+            const index = this.equipesNotEvent.indexOf(this.data.equipe);
+            if (index >= 0) {
+                this.equipesEvent.push(this.equipesNotEvent[index]);
+                this.equipesNotEvent.splice(index, 1);
+            }
+            this.initFilteredValue();
         });
     }
 
@@ -130,5 +148,28 @@ export class VueCreateEventComponent implements OnInit {
 
     selectChip(item: MatChip) {
         item.toggleSelected();
+        if (item.selected) {
+            this.joursSelected.push(item.value);
+        } else {
+            const index = this.joursSelected.indexOf(item.value);
+            this.joursSelected.splice(index, 1);
+        }
+    }
+
+    onNoClick(): void {
+        this.dialogRef.close();
+    }
+
+    createStringRRule() {
+        let rrule = '';
+        this.joursSelected.forEach(value => {
+            if (rrule === '') {
+                rrule += '[RRule.' + value;
+            } else {
+                rrule += ',RRule.' + value;
+            }
+        });
+        rrule += ']';
+        return rrule;
     }
 }

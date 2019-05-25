@@ -3,7 +3,7 @@ import { Club } from './club';
 export class Equipe {
     constructor(
         public id: number,
-        public nom: string
+        public nom?: string
     ) {}
 
     saison: number;

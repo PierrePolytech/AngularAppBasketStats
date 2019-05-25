@@ -1,7 +1,8 @@
 <div class="col-lg-4 offset-lg-4 col-md-8 offset-md-2 col-sm-12 col-xs-12">
     <div class="input-group">
-        <mat-form-field>
-            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Rechercher un joueur">
+        <mat-form-field appearance="outline">
+            <mat-label>Rechercher un joueur</mat-label>
+            <input matInput (keyup)="applyFilter($event.target.value)">
         </mat-form-field>
     </div>
 </div>
@@ -35,4 +36,4 @@
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
-<mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+<mat-paginator [pageSizeOptions]="[10, 25, 50, 100]"></mat-paginator>

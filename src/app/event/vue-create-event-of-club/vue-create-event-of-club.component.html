@@ -1,0 +1,56 @@
+<form class="form-club" [formGroup]="eventForm" (ngSubmit)="onSubmit()">
+    <h1 mat-dialog-title>
+        Création d'un événement club
+    </h1>
+    <div mat-dialog-content class="div-form-create">
+        <mat-form-field class="full-width">
+            <input formControlName="title" matInput placeholder="Titre">
+        </mat-form-field>
+        <mat-checkbox formControlName="recurent" (change)="onChange($event)">Evènement Récurent</mat-checkbox>
+        <div id="div-semaine">
+            <mat-chip-list #chipListWeek [multiple]="true" [selectable]="true">
+                <mat-chip value="MO" #chiplundi="matChip" (click)="selectChip(chiplundi)" color="accent" [selectable]="true">Lundi</mat-chip>
+                <mat-chip value="TU" #chipmardi="matChip" (click)="selectChip(chipmardi)" color="accent" [selectable]="true">Mardi</mat-chip>
+                <mat-chip value="WE" #chipmercredi="matChip" (click)="selectChip(chipmercredi)" color="accent" [selectable]="true">Mercredi</mat-chip>
+                <mat-chip value="TH" #chipjeudi="matChip" (click)="selectChip(chipjeudi)" color="accent" [selectable]="true">Jeudi</mat-chip>
+                <mat-chip value="FR" #chipvendredi="matChip" (click)="selectChip(chipvendredi)" color="accent" [selectable]="true">Vendredi</mat-chip>
+                <mat-chip value="SA" #chipsamedi="matChip" (click)="selectChip(chipsamedi)" color="accent" [selectable]="true">Samedi</mat-chip>
+                <mat-chip value="SU" #chipdimanche="matChip" (click)="selectChip(chipdimanche)" color="accent" [selectable]="true">Dimanche</mat-chip>
+            </mat-chip-list>
+        </div>
+        <div class="full-width">
+            <mat-form-field>
+                <input matInput formControlName="startDate" [matDatepicker]="dateStart" placeholder="Date de début" >
+                <mat-datepicker-toggle matSuffix [for]="dateStart"></mat-datepicker-toggle>
+                <mat-datepicker #dateStart></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field class="input-time">
+                <input type="time" formControlName="startTime" matInput placeholder="Heure de début">
+            </mat-form-field>
+        </div>
+        <div class="full-width">
+            <mat-form-field>
+                <input matInput formControlName="endDate" [matDatepicker]="dateEnd" placeholder="Date de Fin">
+                <mat-datepicker-toggle matSuffix [for]="dateEnd"></mat-datepicker-toggle>
+                <mat-datepicker #dateEnd></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field class="input-time">
+                <input type="time" formControlName="endTime" matInput placeholder="Heure de fin">
+            </mat-form-field>
+        </div>
+        <mat-form-field class="full-width">
+            <mat-label>Type</mat-label>
+            <mat-select name="typeEvents" formControlName="type">
+                <mat-option *ngFor="let key of keysTypeEvent" [value]="key">
+                    {{typeEvents[key]}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field class="full-width">
+            <textarea matInput formControlName="infosSup" placeholder="Informations supplémentaires"></textarea>
+        </mat-form-field>
+    </div>
+    <div mat-dialog-actions>
+        <button type="submit" class="btn btn-success create-event"> <i class="fa fa-plus-circle"></i> Créer l'événement</button>
+    </div>
+</form>

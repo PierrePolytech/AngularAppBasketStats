@@ -1,13 +1,17 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import {JoueurService} from '../../shared/joueur.service';
-import {MatPaginator, MatTableDataSource, MatSort} from '@angular/material';
+import {MatPaginator, MatTableDataSource, MatSort, MatPaginatorIntl} from '@angular/material';
 import { Joueur } from 'src/app/shared/joueur';
+import { FrenchMatPaginatorIntl } from 'src/app/component/language/frenchmatpaginatorintl';
 
 @Component({
   selector: 'app-vue-joueur-of-club',
   templateUrl: './vue-joueur-of-club.component.html',
-  styleUrls: ['./vue-joueur-of-club.component.css']
+  styleUrls: ['./vue-joueur-of-club.component.css'],
+  providers: [
+      {provide: MatPaginatorIntl, useClass: FrenchMatPaginatorIntl}
+  ]
 })
 export class VueJoueurOfClubComponent implements OnInit {
     displayedColumns: string[] = ['nom', 'prenom', 'sexe', 'dateNaissance', 'details'];

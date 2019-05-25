@@ -5,6 +5,12 @@ export class Event implements CalendarEvent {
     actions?: import ('calendar-utils').EventAction[];
     allDay?: boolean;
     cssClass?: string;
+    rrule?: {
+        freq: any;
+        bymonth?: number;
+        bymonthday?: number;
+        byweekday?: any;
+    };
     constructor(
         public id: number,
         public title: string,

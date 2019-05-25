@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { VueCreateEventComponent } from './vue-create-event.component';
+import { AutocompletecityComponent } from './autocompletecity.component';
 
-describe('VueCreateEventComponent', () => {
-  let component: VueCreateEventComponent;
-  let fixture: ComponentFixture<VueCreateEventComponent>;
+describe('AutocompletecityComponent', () => {
+  let component: AutocompletecityComponent;
+  let fixture: ComponentFixture<AutocompletecityComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ VueCreateEventComponent ]
+      declarations: [ AutocompletecityComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(VueCreateEventComponent);
+    fixture = TestBed.createComponent(AutocompletecityComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

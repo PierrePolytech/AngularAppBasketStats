@@ -19,8 +19,23 @@
 
 .div-form-create{
     padding-right: 3%;
+    padding-left: 3%;
+    padding-top: 1%;
+    padding-bottom: 1%;
 }
 
+.div-create-club {
+    margin-top:2%;
+    border: solid 1px #bbb;
+    border-radius: 10px;
+}
+
+mat-form-field.mat-form-field {
+  font-size: 14px;
+}
+.img-fluid{
+    width: 100%;
+}
 
 .carousel-inner{border-radius:0 10px 10px 0;}
 .carousel-caption{text-align:left; left:5%;}
@@ -38,9 +53,3 @@ h2:after{content:" "; width:100px; height:5px; background:#66757f; display:block
 .banner-text p{color:#fff;text-shadow: 2px 2px 4px #000000;}
 
 .banner-text p h2{text-shadow: 2px 2px 4px #000000;}
-
-@media only screen and (max-width: 992px) {
-    .text{font-size: 70%;}
-    h2{font-size:85%;}
-    .form-control{font-size:70%;}
-}

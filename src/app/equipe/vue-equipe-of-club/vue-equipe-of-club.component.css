@@ -1,16 +1,25 @@
 table {
-  width: 100%;
+    width: 100%;
 }
 
 .mat-form-field {
-  font-size: 14px;
-  width: 100%;
+    font-size: 14px;
+    width: 100%;
 }
 
-.create-equipe{
+.full-width {
     width: 100%;
 }
 
 .btn-default{
 	background-color: buttonface;
+}
+
+.div-vue-equipe{
+    margin-top: 2%;
+    margin-bottom: 2%;
+}
+
+.div-tableau{
+    margin-top: 2%;
 }

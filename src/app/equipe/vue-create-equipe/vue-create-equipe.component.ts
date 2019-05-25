@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { EnumCategory } from 'src/app/shared/enum/enumcategory';
 import { EnumNiveau } from 'src/app/shared/enum/enumniveau';
 import { EnumSaison } from 'src/app/shared/enum/enumsaison';
 import { EnumSexeEquipe } from 'src/app/shared/enum/enumsexeequipe';
 import { EquipeService } from 'src/app/shared/equipe.service';
 import { FormGroup, FormControl } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 
 @Component({
   selector: 'app-vue-create-equipe',
@@ -40,9 +40,10 @@ export class VueCreateEquipeComponent implements OnInit {
     });
 
     constructor(
-        private route: ActivatedRoute,
-        public equipeService: EquipeService
-        ) {
+        public equipeService: EquipeService,
+        public dialogRef: MatDialogRef<VueCreateEquipeComponent>,
+        @Inject(MAT_DIALOG_DATA) public data: any
+    ) {
         this.keysCategories = Object.keys(this.categories);
         this.keysNiveaux = Object.keys(this.niveaux);
         this.keysSaisons = Object.keys(this.saisons);
@@ -51,11 +52,15 @@ export class VueCreateEquipeComponent implements OnInit {
 
     ngOnInit() {
     }
+
     onSubmit() {
-        const id = +this.route.snapshot.paramMap.get('id');
-        this.equipeService.createEquipeFromClub(this.equipeForm.value, id).subscribe(
-            success => alert('Done'),
+        this.equipeService.createEquipeFromClub(this.equipeForm.value, this.data.club.id).subscribe(
+            success => this.dialogRef.close(),
             error => alert(error)
         );
+    }
+
+    onNoClick(): void {
+        this.dialogRef.close();
     }
 }

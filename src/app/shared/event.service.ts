@@ -61,16 +61,26 @@ export class EventService {
   getAllEventsFromClub(id): Observable<Event[]> {
     return this.http.get(this.apiURL + '/club/' + id + '/events')
     .pipe(
-      map((data: any[]) => data.map((item: any) => new Event(
-        item.id,
-        item.title,
-        new Date(item.dateDebut),
-        new Date(item.dateFin),
-        item.infosSup,
-        {primary: '#1e90ff', secondary: '#D1E8FF'},
-        {beforeStart: false, afterEnd: false},
-        false
-      )))
+      map(
+          (data: any[]) => data.map((item: any) => {
+              const events: Event[] = [];
+              const event = new Event(
+                  item.id, item.title,
+                  new Date(item.dateDebut), new Date(item.dateFin),
+                  item.infosSup, {primary: '#1e90ff', secondary: '#D1E8FF'},
+                  {beforeStart: false, afterEnd: false},
+                  false);
+              if (item.recurent) {
+                    const rrule =  {
+                        freq: item.freq,
+                        byweekday: item.byweekday,
+                        bymonth: item.bymonth,
+                        bymonthday: item.bymonthday
+                    };
+                    event.rrule = rrule;
+              }
+              return event;
+          }))
     );
   }
 

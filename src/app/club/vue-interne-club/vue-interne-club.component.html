@@ -49,7 +49,7 @@
             <app-vue-joueur-of-club></app-vue-joueur-of-club>
         </div>
         <div *ngSwitchCase="'Calendrier'">
-            <app-vue-event-of-club></app-vue-event-of-club>
+            <app-vue-event-of-club [club]="club"></app-vue-event-of-club>
         </div>
         <div *ngSwitchCase="'Matchs'">
             <app-vue-match-of-club></app-vue-match-of-club>

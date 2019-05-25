@@ -1,48 +1,55 @@
-<div class="container">
-    <div class="div-form-create">
-        <form class="form-equipe" [formGroup]="equipeForm" (ngSubmit)="onSubmit()">
-            <mat-form-field class="full-width">
-                <input formControlName="nom" matInput placeholder="Nom de l'équipe">
-            </mat-form-field>
-            <mat-form-field class="full-width">
-                <mat-label>Saison</mat-label>
-                <mat-select name="saisons" formControlName="saison">
-                    <mat-option *ngFor="let keySaisons of keysSaisons" [value]="keySaisons.substring(1, 5)">
-                        {{saisons[keySaisons]}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-            <mat-form-field class="full-width">
-                <mat-label>Catégorie</mat-label>
-                <mat-select name="categories" formControlName="category">
-                    <mat-option *ngFor="let keyCategories of keysCategories" [value]="keyCategories">
-                        {{categories[keyCategories]}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-            <mat-form-field class="full-width">
-                <mat-label>Sexe</mat-label>
-                <mat-select name="sexes" formControlName="sexe">
-                    <mat-option *ngFor="let keySexes of keysSexes" [value]="keySexes">
-                        {{sexes[keySexes]}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-            <mat-form-field class="full-width">
-                <mat-label>Niveau</mat-label>
-                <mat-select name="niveaux" formControlName="niveau">
-                    <mat-option *ngFor="let keyNiveaux of keysNiveaux" [value]="keyNiveaux">
-                        {{niveaux[keyNiveaux]}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
-            <mat-form-field class="full-width">
-                <input matInput placeholder="Division" formControlName="division">
-            </mat-form-field>
-            <mat-form-field class="full-width">
-                <input matInput placeholder="Poule" formControlName="poule">
-            </mat-form-field>
-            <button type="submit" class="btn btn-success create-equipe full-width"> <i class="fa fa-plus-circle"></i> Créer l'équipe</button>
-        </form>
+<form class="form-equipe" [formGroup]="equipeForm" (ngSubmit)="onSubmit()">
+    <h1 mat-dialog-title>
+        Création d'une équipe
+    </h1>
+    <div mat-dialog-content class="div-form-create">
+        <mat-form-field class="full-width">
+            <input formControlName="nom" matInput placeholder="Nom de l'équipe">
+        </mat-form-field>
+        <mat-form-field class="full-width">
+            <mat-label>Saison</mat-label>
+            <mat-select name="saisons" formControlName="saison">
+                <mat-option *ngFor="let keySaisons of keysSaisons" [value]="keySaisons.substring(1, 5)">
+                    {{saisons[keySaisons]}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field class="full-width">
+            <mat-label>Catégorie</mat-label>
+            <mat-select name="categories" formControlName="category">
+                <mat-option *ngFor="let keyCategories of keysCategories" [value]="keyCategories">
+                    {{categories[keyCategories]}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field class="full-width">
+            <mat-label>Sexe</mat-label>
+            <mat-select name="sexes" formControlName="sexe">
+                <mat-option *ngFor="let keySexes of keysSexes" [value]="keySexes">
+                    {{sexes[keySexes]}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field class="full-width">
+            <mat-label>Niveau</mat-label>
+            <mat-select name="niveaux" formControlName="niveau">
+                <mat-option *ngFor="let keyNiveaux of keysNiveaux" [value]="keyNiveaux">
+                    {{niveaux[keyNiveaux]}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field class="full-width">
+            <input matInput placeholder="Division" formControlName="division">
+        </mat-form-field>
+        <mat-form-field class="full-width">
+            <input matInput placeholder="Poule" formControlName="poule">
+        </mat-form-field>
     </div>
-</div>
+    <div mat-dialog-actions>
+        <button type="submit" class="btn btn-success create-equipe full-width"> <i class="fa fa-plus-circle"></i> Créer l'équipe</button>
+    </div>
+</form>
+
+
+
+

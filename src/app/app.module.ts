@@ -1,7 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
-import { NgAisModule } from 'angular-instantsearch';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 // HttpClient module for RESTful API
@@ -12,10 +11,6 @@ import { AppRoutingModule } from './app-routing.module';
 
 // Forms module
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-// Calendar
-import { CalendarModule, DateAdapter } from 'angular-calendar';
-import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
-import { FlatpickrModule } from 'angularx-flatpickr';
 
 // Components
 
@@ -54,7 +49,16 @@ import { VueEventOfEquipeComponent } from './event/vue-event-of-equipe/vue-event
 import { CalendarHeaderComponent } from './calendar/calendar-header.component';
 import { registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
-import { VueCreateEventComponent } from './event/vue-create-event/vue-create-event.component';
+import { VueCreateEventOfClubComponent } from './event/vue-create-event-of-club/vue-create-event-of-club.component';
+import { VueCreateEventOfEquipeComponent } from './event/vue-create-event-of-equipe/vue-create-event-of-equipe.component';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { FlatpickrModule } from 'angularx-flatpickr';
+
+// Algolia
+import { NgAisModule } from 'angular-instantsearch';
+import { AutocompletecityComponent } from './component/autocompletecity/autocompletecity.component';
+
 
 registerLocaleData(localeFr);
 
@@ -83,7 +87,9 @@ registerLocaleData(localeFr);
     VueEventOfClubComponent,
     VueEventOfEquipeComponent,
     CalendarHeaderComponent,
-    VueCreateEventComponent
+    VueCreateEventOfClubComponent,
+    VueCreateEventOfEquipeComponent,
+    AutocompletecityComponent
   ],
   imports: [
     NgbModule,

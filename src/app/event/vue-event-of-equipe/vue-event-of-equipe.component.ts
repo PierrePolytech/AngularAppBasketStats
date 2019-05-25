@@ -3,9 +3,11 @@ import { ActivatedRoute } from '@angular/router';
 import { EventService } from 'src/app/shared/event.service';
 import { CalendarDateFormatter, CalendarView, DAYS_OF_WEEK, CalendarEvent, CalendarEventAction } from 'angular-calendar';
 import { CustomDateFormatter } from 'src/app/calendar/custom-date-formatter.provider';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { isSameDay, isSameMonth } from 'date-fns';
 import { Equipe } from 'src/app/shared/equipe';
+import { MatDialog } from '@angular/material';
+import { VueCreateEventOfEquipeComponent } from '../vue-create-event-of-equipe/vue-create-event-of-equipe.component';
+import { Event } from 'src/app/shared/event';
 
 @Component({
   selector: 'app-vue-event-of-equipe',
@@ -26,37 +28,21 @@ export class VueEventOfEquipeComponent implements OnInit {
     locale = 'fr';
     weekStartsOn: number = DAYS_OF_WEEK.MONDAY;
     activeDayIsOpen = false;
+    eventsAffiches: Event[];
+
+    dateAffiche: Date = new Date();
 
     @Input() equipe: Equipe;
 
     events: any[];
 
-    modalData: {
-        action: string;
-        event: CalendarEvent;
-    };
-    actions: CalendarEventAction[] = [
-        {
-            label: '<i class="fa fa-fw fa-pencil"></i>',
-            onClick: ({ event }: { event: CalendarEvent }): void => {
-                this.handleEvent('Edited', event);
-            }
-        },
-        {
-            label: '<i class="fa fa-fw fa-times"></i>',
-            onClick: ({ event }: { event: CalendarEvent }): void => {
-                this.events = this.events.filter(iEvent => iEvent !== event);
-                this.handleEvent('Deleted', event);
-            }
-        }
-    ];
-
     constructor(
         private route: ActivatedRoute,
         public eventService: EventService,
-        private modal: NgbModal
+        public dialogCreateEventEquipe: MatDialog
     ) {
         this.events = [];
+        this.eventsAffiches = [];
      }
 
     ngOnInit() {
@@ -79,31 +65,25 @@ export class VueEventOfEquipeComponent implements OnInit {
         this.activeDayIsOpen = false;
     }
 
-    handleEvent(action: string, event: CalendarEvent): void {
-        this.modalData = { event, action };
-        this.modal.open(this.modalContent, { size: 'lg' });
-    }
-
     // event
     eventClicked({ event }: { event: CalendarEvent }): void {
         console.log('Event clicked', event);
     }
 
-    dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
-        if (isSameMonth(date, this.viewDate)) {
-            this.viewDate = date;
-            if (
-                (isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
-                events.length === 0
-            ) {
-                this.activeDayIsOpen = false;
-            } else {
-                this.activeDayIsOpen = true;
-            }
-        }
+    dayClicked({ date, events }: { date: Date; events: Event[] }): void {
+        console.log('Day click', date , '/ events', events);
+        this.dateAffiche = date;
+        this.eventsAffiches = events;
     }
 
-    hourSegmentClicked(date: Date) {
-        console.log('Day click', date);
+    openCreateEventEquipe() {
+        const dialogEquipe = this.dialogCreateEventEquipe.open(VueCreateEventOfEquipeComponent, {
+            width: '50%',
+            data: {equipe: this.equipe}
+        });
+
+        dialogEquipe.afterClosed().subscribe(result => {
+            this.loadEvents();
+        });
     }
 }

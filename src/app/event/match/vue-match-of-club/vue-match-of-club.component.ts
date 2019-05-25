@@ -3,6 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import {EventService} from '../../../shared/event.service';
 import { groupBy, toArray, mergeMap } from 'rxjs/operators';
 import { from } from 'rxjs';
+import { Match } from 'src/app/shared/match';
+import * as moment from 'moment';
 
 
 @Component({
@@ -11,12 +13,14 @@ import { from } from 'rxjs';
   styleUrls: ['./vue-match-of-club.component.css']
 })
 export class VueMatchOfClubComponent implements OnInit {
-    matchsByMonth: any[];
+    matchsByMonthJoue: any[];
+    matchsByMonthAVenir: any[];
     constructor(
         private route: ActivatedRoute,
         public eventService: EventService
     ) {
-        this.matchsByMonth = [];
+        this.matchsByMonthJoue = [];
+        this.matchsByMonthAVenir = [];
     }
 
     ngOnInit() {
@@ -31,8 +35,12 @@ export class VueMatchOfClubComponent implements OnInit {
                 groupBy(match => match.dateMatch.getMonth()),
                 mergeMap(group => group.pipe(toArray()))
             );
-            matchs.subscribe(val => {
-                this.matchsByMonth.push(val);
+            matchs.subscribe((matchsParMois: Match[]) => {
+                const matchsPasJoue = matchsParMois.filter(match => moment(match.dateMatch, 'YYYY-MM-DD').isAfter(moment()));
+                this.matchsByMonthAVenir.push(matchsPasJoue);
+
+                const matchsJoue = matchsParMois.filter(match => moment(match.dateMatch, 'YYYY-MM-DD').isBefore(moment()));
+                this.matchsByMonthJoue.push(matchsJoue);
             });
         });
     }

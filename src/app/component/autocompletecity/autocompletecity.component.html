@@ -1,0 +1,34 @@
+<mat-form-field appearance="outline" class="full-width">
+    <mat-label>Ville du club</mat-label>
+    <mat-chip-list #chipList>
+        <mat-chip
+            *ngFor="let ville of villesChoisi"
+            [selectable]="true"
+            [removable]="true"
+            (removed)="remove(ville)">
+                <ng-container *ngIf="ville.departement!=null; else elseBlock">
+                    <span>{{ville.nom}} ({{ville.departement.code}})</span>
+                </ng-container>
+                <ng-template #elseBlock>{{ville.nom}}</ng-template>
+            <mat-icon matChipRemove>cancel</mat-icon>
+        </mat-chip>
+        <input
+        #villeInput
+        [formControl]="villeCtrl"
+        [matAutocomplete]="auto"
+        [matChipInputFor]="chipList"
+        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+        [matChipInputAddOnBlur]="false">
+    </mat-chip-list>
+    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+        <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+        <ng-container *ngIf="!isLoading">
+            <mat-option *ngFor="let ville of filteredVilles" [value]="ville">
+                <ng-container *ngIf="ville.departement!=null; else elseBlock">
+                    <span>{{ville.nom}} ({{ville.departement.code}})</span>
+                </ng-container>
+                <ng-template #elseBlock>{{ville.nom}}</ng-template>
+            </mat-option>
+        </ng-container>
+    </mat-autocomplete>
+</mat-form-field>
