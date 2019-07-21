@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Match } from '../shared/match';
-import { Event } from '../shared/event';
+import { Match } from './match';
+import { Event } from './event';
 import { Observable, throwError } from 'rxjs';
 import { map, retry, catchError } from 'rxjs/operators';
 import { Equipe } from './equipe';
-
+import { CalendarEvent } from 'angular-calendar';
+import { RRule, RRuleSet, rrulestr } from 'rrule';
 
 @Injectable({
   providedIn: 'root'
@@ -58,8 +59,42 @@ export class EventService {
     );
   }
 
-  getAllEventsFromClub(id): Observable<Event[]> {
+  getAllEventsFromClub(id): Observable<CalendarEvent[]> {
     return this.http.get(this.apiURL + '/club/' + id + '/events')
+    .pipe(
+      map(( data: any[]) => 
+        data.reduce((result, item) => {
+          if (item.recurent) {
+            Array.prototype.push.apply(result,this.createEventRecurent(item));
+          } else {
+            const eventDb = new Event(
+            item.id, item.title,
+            new Date(item.dateDebut), new Date(item.dateFin),
+            item.infosSup, item.typeEvent);
+            eventDb.clubs= item.clubs;
+            eventDb.equipes= item.equipes;
+            result.push({
+                  start: new Date(item.dateDebut),
+                  end: new Date(item.dateFin),
+                  title: item.title,
+                  color: this.getColor(item.typeEvent),
+                  resizable: {
+                    beforeStart: true,
+                    afterEnd: true
+                  },
+                  draggable: true,
+                  meta: {
+                    eventDb
+                  }
+            });
+          }
+          return result;
+      }, []))
+    );
+  }
+
+  getAllEventsFromEquipe(id): Observable<Event[]> {
+    return this.http.get(this.apiURL + '/equipe/' + id + '/events')
     .pipe(
       map(
           (data: any[]) => data.map((item: any) => {
@@ -67,36 +102,16 @@ export class EventService {
               const event = new Event(
                   item.id, item.title,
                   new Date(item.dateDebut), new Date(item.dateFin),
-                  item.infosSup, {primary: '#1e90ff', secondary: '#D1E8FF'},
-                  {beforeStart: false, afterEnd: false},
-                  false);
+                  item.infosSup, item.typeEvent);
               if (item.recurent) {
-                    const rrule =  {
-                        freq: item.freq,
-                        byweekday: item.byweekday,
-                        bymonth: item.bymonth,
-                        bymonthday: item.bymonthday
-                    };
-                    event.rrule = rrule;
+                  event.recurent = item.recurent;
+                  event.freq= item.freq;
+                  event.byweekday= item.byweekday;
+                  event.bymonth= item.bymonth;
+                  event.bymonthday= item.bymonthday;
               }
               return event;
           }))
-    );
-  }
-
-  getAllEventsFromEquipe(id): Observable<Event[]> {
-    return this.http.get(this.apiURL + '/equipe/' + id + '/events')
-    .pipe(
-      map((data: any[]) => data.map((item: any) => new Event(
-        item.id,
-        item.title,
-        new Date(item.dateDebut),
-        new Date(item.dateFin),
-        item.infosSup,
-        {primary: '#1e90ff', secondary: '#D1E8FF'},
-        {beforeStart: false, afterEnd: false},
-        false
-      )))
     );
   }
 
@@ -107,16 +122,75 @@ export class EventService {
       catchError(this.handleError)
     );
   }
-
-
+    
+  updateEvent(event): Observable<Event> {
+    return this.http.put<Event>(this.apiURL + '/event', JSON.stringify(event), this.httpOptions)
+    .pipe(
+      retry(1),
+      catchError(this.handleError)
+    );
+  }
+    
+    createEventRecurent(event: any) {
+        const events = [];
+        const options = RRule.parseString('FREQ='+ event.freq+';BYWEEKDAY='+ event.byweekday);
+        options.dtstart = new Date(event.dateDebut);
+        options.until = new Date(event.dateFin);
+        const rruleSet = new RRule (options);
+        rruleSet.all().forEach(date => {
+            const datefin = new Date(date);
+            datefin.setHours(options.until.getHours(), options.until.getMinutes(), 0);
+            const eventDb = new Event(event.id, event.title,event.dateDebut, event.dateFin, event.infosSup, event.typeEvent);
+            eventDb.recurent = event.recurent;
+            eventDb.freq= event.freq;
+            eventDb.byweekday= event.byweekday;
+            eventDb.bymonth= event.bymonth;
+            eventDb.bymonthday= event.bymonthday;
+            eventDb.clubs= event.clubs;
+            eventDb.equipes= event.equipes;
+            events.push(
+                {
+                  start: new Date(date),
+                  end: datefin,
+                  title: event.title,
+                  color: this.getColor(event.typeEvent),
+                  resizable: {
+                    beforeStart: true,
+                    afterEnd: true
+                  },
+                  draggable: false,
+                  meta: {
+                    eventDb
+                  }
+                }
+            );
+        });
+        return events;
+    }
+    
+    getColor(typeEvent: string) {
+        let color = {primary: '#ad2121', secondary: '#FAE3E3'};
+        if(typeEvent == 'MATCH'){
+            color = {primary: '#ad2121', secondary: '#FAE3E3'};
+        } else if(typeEvent == 'ENTRAINEMENT'){
+            color = {primary: '#1e90ff',secondary: '#D1E8FF'};
+        } else if(typeEvent == 'AUTRE'){
+            color = {primary: '#e3bc08',secondary: '#FDF1BA'};
+        }   
+        return color;
+    }
+    
+    // Error handling
   handleError(error) {
      let errorMessage = '';
      if (error.error instanceof ErrorEvent) {
+       // Get client-side error
        errorMessage = error.error.message;
      } else {
+       // Get server-side error
        errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
      }
-     window.alert(errorMessage);
-     return throwError(errorMessage);
+     //window.alert(errorMessage);
+     return throwError(error);
   }
 }

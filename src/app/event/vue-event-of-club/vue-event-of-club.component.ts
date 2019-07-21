@@ -10,7 +10,8 @@ import {
   CalendarEvent,
   CalendarView,
   CalendarDateFormatter,
-  DAYS_OF_WEEK
+  DAYS_OF_WEEK,
+  CalendarEventTimesChangedEvent
 } from 'angular-calendar';
 import { CustomDateFormatter } from 'src/app/calendar/custom-date-formatter.provider';
 import { ActivatedRoute } from '@angular/router';
@@ -19,18 +20,23 @@ import { Club } from 'src/app/shared/club';
 import { MatDialog } from '@angular/material';
 import { VueCreateEventOfClubComponent } from '../vue-create-event-of-club/vue-create-event-of-club.component';
 import { VueCreateEventOfEquipeComponent } from '../vue-create-event-of-equipe/vue-create-event-of-equipe.component';
+import { ModalModificationEventComponent } from 'src/app/modal/modal-modification-event/modal-modification-event.component';
+import { ModalEditEventClubComponent } from 'src/app/modal/modal-edit-event-club/modal-edit-event-club.component';
 import { Event } from 'src/app/shared/event';
-import RRule from 'rrule';
+import { RRule, RRuleSet, rrulestr } from 'rrule';
+import { Observable, Subject } from 'rxjs';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-vue-event-of-club',
   styleUrls: ['vue-event-of-club.component.css'],
   templateUrl: 'vue-event-of-club.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {
       provide: CalendarDateFormatter,
       useClass: CustomDateFormatter
-    }
+    }      
   ]
 })
 export class VueEventOfClubComponent implements OnInit {
@@ -43,41 +49,39 @@ export class VueEventOfClubComponent implements OnInit {
     locale = 'fr';
     weekStartsOn: number = DAYS_OF_WEEK.MONDAY;
 
-    events: Event[] ;
-    eventsAffiches: Event[];
+    events$: Observable<Array<CalendarEvent<{ eventDb: Event }>>>;
+    eventsAffiches: any;
 
     dateAffiche: Date = new Date();
-
-    activeDayIsOpen = true;
-
+    refresh: Subject<any> = new Subject();
+    activeDayIsOpen = false;
     @Input() club: Club;
 
     constructor(
         private route: ActivatedRoute,
         public eventService: EventService,
         public dialogCreateEventEquipe: MatDialog,
-        public dialogCreateEventClub: MatDialog
+        public dialogCreateEventClub: MatDialog,
+        public dialogConfirmerModifEvent: MatDialog,
+        public dialogEditEventClub: MatDialog
     ) {
-        this.events = [];
-        this.eventsAffiches = [];
     }
-
+    
     ngOnInit() {
         this.loadEvents();
     }
 
     loadEvents() {
         const id = +this.route.snapshot.paramMap.get('id');
-        this.eventService.getAllEventsFromClub(id).subscribe((data: {}) => {
-            const eventsAPI = data as Event[];
-            eventsAPI.forEach((event: Event) => {
-                if (event.rrule != null) {
-                    // console.log(this.createEventRecurent(event));
-                } else {
-                    this.events.push(event);
+        this.events$ = this.eventService.getAllEventsFromClub(id);
+        this.events$.subscribe((data: any) =>{
+            const eventsAffiches = [];
+            data.map((event: any) => {
+                if(moment(event.start).isSame(new Date(), 'day')||moment(event.end).isSame(new Date(), 'day')){
+                    eventsAffiches.push(event);
                 }
             });
-            console.log(this.events);
+            this.eventsAffiches = eventsAffiches;
         });
     }
 
@@ -87,19 +91,18 @@ export class VueEventOfClubComponent implements OnInit {
         this.view = view;
     }
 
-    closeOpenMonthViewDay() {
-        this.activeDayIsOpen = false;
-    }
-
     // event
     eventClicked({ event }: { event: Event }): void {
         console.log('Event clicked', event);
     }
 
-    dayClicked({ date, events }: { date: Date; events: Event[] }): void {
-        console.log('Day click', date , '/ events', events);
+    dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
         this.dateAffiche = date;
         this.eventsAffiches = events;
+    }
+    
+    modificationHoraire({event, newStart, newEnd}: CalendarEventTimesChangedEvent): void {
+        this.openModifEvent(event, newStart, newEnd);        
     }
 
     openCreateEventClub() {
@@ -110,7 +113,10 @@ export class VueEventOfClubComponent implements OnInit {
             });
 
         dialogClub.afterClosed().subscribe(result => {
-            this.loadEvents();
+            if(result){
+                this.refreshView();
+                this.loadEvents();
+            }
         });
     }
 
@@ -121,34 +127,43 @@ export class VueEventOfClubComponent implements OnInit {
         });
 
         dialogEquipe.afterClosed().subscribe(result => {
-            this.loadEvents();
+            if(result){
+                this.refreshView();
+                this.loadEvents();
+            }
         });
     }
+    
+    openModifEvent(event, newStart, newEnd) {
+        const dialogModifEvent = this.dialogConfirmerModifEvent.open(ModalModificationEventComponent, {
+            width: '50%',
+            data: {event: event, newStart: newStart, newEnd: newEnd }
+        });
 
-    createEventRecurent(event: Event) {
-        const events: Event[] = [];
-        const rrule =  {
-            freq: event.rrule.freq,
-            byweekday: event.rrule.byweekday
-        };
-        const rule: RRule = new RRule({
-            ... rrule,
-            dtstart: new Date(event.dateDebut),
-            until: new Date(event.dateFin)
+        dialogModifEvent.afterClosed().subscribe(result => {
+            if(result){
+                this.refreshView();
+                this.loadEvents();
+            }
         });
-        rule.all().forEach(date => {
-            const datefin = date;
-            datefin.setHours(15, 30, 0);
-            events.push(
-                new Event(
-                    event.id, event.title,
-                    new Date(date), new Date(datefin),
-                    event.infosSup, {primary: '#1e90ff', secondary: '#D1E8FF'},
-                    {beforeStart: false, afterEnd: false},
-                    false)
-            );
+    }
+    
+    openEditEventClub(event) {
+        const dialogEditEventClub = this.dialogEditEventClub.open(ModalEditEventClubComponent, {
+            width: '50%',
+            data: {event: event}
         });
-        return events;
+
+        dialogEditEventClub.afterClosed().subscribe(result => {
+            if(result){
+                this.refreshView();
+                this.loadEvents();
+            }
+        });
+    }
+    
+    refreshView(): void {
+        this.refresh.next();
     }
 }
 

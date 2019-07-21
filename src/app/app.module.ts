@@ -1,8 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler } from '@angular/core';
 import { AppComponent } from './app.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 // HttpClient module for RESTful API
 import { HttpClientModule } from '@angular/common/http';
 
@@ -26,8 +27,6 @@ import { VueCreateEquipeComponent } from './equipe/vue-create-equipe/vue-create-
 import { VueEditEquipeComponent } from './equipe/vue-edit-equipe/vue-edit-equipe.component';
 import { VueExterneEquipeComponent } from './equipe/vue-externe-equipe/vue-externe-equipe.component';
 import { VueInterneEquipeComponent } from './equipe/vue-interne-equipe/vue-interne-equipe.component';
-import { VueSearchEquipeComponent } from './equipe/vue-search-equipe/vue-search-equipe.component';
-
 import { VueEquipeOfClubComponent } from './equipe/vue-equipe-of-club/vue-equipe-of-club.component';
 
 // Joueur
@@ -58,6 +57,18 @@ import { FlatpickrModule } from 'angularx-flatpickr';
 // Algolia
 import { NgAisModule } from 'angular-instantsearch';
 import { AutocompletecityComponent } from './component/autocompletecity/autocompletecity.component';
+import { ModalModificationEventComponent } from './modal/modal-modification-event/modal-modification-event.component';
+import { ModalEditEventClubComponent } from './modal/modal-edit-event-club/modal-edit-event-club.component';
+import { ModalEditEventEquipeComponent } from './modal/modal-edit-event-equipe/modal-edit-event-equipe.component';
+import { VueParametreClubComponent } from './club/vue-parametre-club/vue-parametre-club.component';
+import { VueAjoutSalleClubComponent } from './salle/vue-ajout-salle-club/vue-ajout-salle-club.component';
+import { AutocompleteAdresseComponent } from './component/autocomplete-adresse/autocomplete-adresse.component';
+
+import { VueInscriptionUtilisateurComponent } from './utilisateur/vue-inscription-utilisateur/vue-inscription-utilisateur.component';
+import { ModalLoginComponent } from './utilisateur/modal-login/modal-login.component';
+
+import { AuthInterceptor } from './shared/authInterceptor';
+import { AuthErrorHandler } from './shared/authErrorHandler';
 
 
 registerLocaleData(localeFr);
@@ -76,7 +87,6 @@ registerLocaleData(localeFr);
     VueEditEquipeComponent,
     VueExterneEquipeComponent,
     VueInterneEquipeComponent,
-    VueSearchEquipeComponent,
     VueEquipeOfClubComponent,
     VueJoueurOfClubComponent,
     VueCreateJoueurComponent,
@@ -89,7 +99,15 @@ registerLocaleData(localeFr);
     CalendarHeaderComponent,
     VueCreateEventOfClubComponent,
     VueCreateEventOfEquipeComponent,
-    AutocompletecityComponent
+    AutocompletecityComponent,
+    ModalModificationEventComponent,
+    ModalEditEventClubComponent,
+    ModalEditEventEquipeComponent,
+    VueParametreClubComponent,
+    VueAjoutSalleClubComponent,
+    AutocompleteAdresseComponent,
+    VueInscriptionUtilisateurComponent,
+    ModalLoginComponent
   ],
   imports: [
     NgbModule,
@@ -106,7 +124,12 @@ registerLocaleData(localeFr);
       useFactory: adapterFactory
     })
   ],
-  providers: [],
+  providers: [
+    { provide: MatDialogRef, useValue: {} },
+    { provide: MAT_DIALOG_DATA, useValue: [] },
+    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
+    {provide: ErrorHandler, useClass: AuthErrorHandler}
+  ],
   bootstrap: [AppComponent]
 })
 

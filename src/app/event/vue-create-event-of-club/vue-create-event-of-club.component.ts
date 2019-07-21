@@ -42,31 +42,32 @@ export class VueCreateEventOfClubComponent implements OnInit {
         this.adapter.setLocale('fr');
         document.getElementById('div-semaine').hidden = true;
     }
+    
     onSubmit() {
         // init Date debut
         const dateDebut = new Date(this.eventForm.value.startDate);
         const heureDebut = this.eventForm.value.startTime.toString();
-        dateDebut.setHours(heureDebut.substring(0, 2), heureDebut.substring(3, 5));
+        dateDebut.setHours(parseInt(heureDebut.substring(0, 2))-(dateDebut.getTimezoneOffset())/60, heureDebut.substring(3, 5));
         // init Date fin
         const dateFin = new Date(this.eventForm.value.endDate);
         const heureFin = this.eventForm.value.endTime.toString();
-        dateFin.setHours(heureFin.substring(0, 2), heureFin.substring(3, 5));
+        dateFin.setHours(parseInt(heureFin.substring(0, 2))-(dateFin.getTimezoneOffset())/60, heureFin.substring(3, 5));
 
         // create JSON
         const jsonEvent = new EventJson();
         jsonEvent.title = this.eventForm.value.title;
-        jsonEvent.dateDebut = moment(dateDebut).format('YYYY-MM-DD HH:mm:ss');
-        jsonEvent.dateFin = moment(dateFin).format('YYYY-MM-DD HH:mm:ss');
+        jsonEvent.dateDebut = moment(dateDebut).toISOString();
+        jsonEvent.dateFin = moment(dateFin).toISOString();
         jsonEvent.infosSup = this.eventForm.value.infosSup;
         jsonEvent.typeEvent = this.eventForm.value.type;
         jsonEvent.clubs = new Array(new Club(this.data.club.id));
         jsonEvent.recurent = this.eventForm.value.recurent;
         if (this.eventForm.value.recurent) {
-            jsonEvent.freq = 'RRule.WEEKLY';
-            jsonEvent.byweekday = this.createStringRRule();
-        }
+            jsonEvent.freq = 'WEEKLY';
+            jsonEvent.byweekday = this.joursSelected.toString();
+        } 
         this.eventService.createEvent(jsonEvent).subscribe(
-            success => this.dialogRef.close(),
+            success => this.dialogRef.close(true),
             error => alert(error)
         );
     }
@@ -86,19 +87,6 @@ export class VueCreateEventOfClubComponent implements OnInit {
     }
 
     onNoClick(): void {
-        this.dialogRef.close();
-    }
-
-    createStringRRule() {
-        let rrule = '';
-        this.joursSelected.forEach(value => {
-            if (rrule === '') {
-                rrule += '[RRule.' + value;
-            } else {
-                rrule += ',RRule.' + value;
-            }
-        });
-        rrule += ']';
-        return rrule;
+        this.dialogRef.close(false);
     }
 }

@@ -1,59 +1,68 @@
 <div class="vue-match-of-club">
     <h1 class="title">Matchs du club</h1>
     <h2>Match à venir</h2>
-    <table class="table-match">
-        <thead>
-            <tr>
-                <th scope="col">Date</th>
-                <th scope="col">Heure</th>
-                <th scope="col">Equipe</th>
-                <th scope="col">Adversaire</th>
-                <th scope="col">Résultat</th>
-                <th scope="col">Score</th>
-            </tr>
-        </thead>
-        <tbody *ngFor="let matchMonth of matchsByMonthAVenir">
-            <tr class="tr-month" *ngIf="matchMonth.length > 0">
-                <td colspan="100%">{{matchMonth[0].dateMatch.toLocaleString(fr, { month: "long" })}}</td>
-            </tr>
-            <tr  *ngFor="let match of matchMonth">
-                <td>{{match.dateMatch | date:'dd/MM/yy'}}</td>
-                <td>{{match.heureMatch}}</td>
-                <td>{{match.equipe.nom}}</td>
-                <td>{{match.adversaire}}</td>
-                <td *ngIf="match.scoreEquipe==null||match.scoreAdversaire==null;"></td>
-                <td *ngIf="match.scoreEquipe!=null&&match.scoreAdversaire!=null&&match.scoreEquipe>match.scoreAdversaire;">V</td>
-                <td *ngIf="match.scoreEquipe!=null&&match.scoreAdversaire!=null&&match.scoreEquipe<match.scoreAdversaire;">D</td>      
-                <td>{{match.scoreEquipe}} - {{match.scoreAdversaire}}</td>
-            </tr>
-        </tbody>
-    </table>
+    <div *ngIf="matchsByMonthAVenir.length>0; then blocMatchsAVenir else blocAucunMatchAVenir"></div>
+    <ng-template #blocMatchsAVenir>
+		<table class="table-match">
+	        <thead>
+	            <tr>
+	                <th scope="col">Date</th>
+	                <th scope="col">Heure</th>
+	                <th scope="col">Equipe</th>
+	                <th scope="col">Adversaire</th>
+	                <th scope="col">Résultat</th>
+	                <th scope="col">Score</th>
+	            </tr>
+	        </thead>
+	        <tbody *ngFor="let matchMonth of matchsByMonthAVenir">
+	            <tr class="tr-month" *ngIf="matchMonth.length > 0">
+	                <td colspan="100%">{{matchMonth[0].dateMatch.toLocaleString(fr, { month: "long" })}}</td>
+	            </tr>
+	            <tr  *ngFor="let match of matchMonth">
+	                <td>{{match.dateMatch | date:'dd/MM/yy'}}</td>
+	                <td>{{match.heureMatch}}</td>
+	                <td>{{match.equipe.nom}}</td>
+	                <td>{{match.adversaire}}</td>
+	                <td *ngIf="match.scoreEquipe==null||match.scoreAdversaire==null;"></td>
+	                <td *ngIf="match.scoreEquipe!=null&&match.scoreAdversaire!=null&&match.scoreEquipe>match.scoreAdversaire;">V</td>
+	                <td *ngIf="match.scoreEquipe!=null&&match.scoreAdversaire!=null&&match.scoreEquipe<match.scoreAdversaire;">D</td>      
+	                <td>{{match.scoreEquipe}} - {{match.scoreAdversaire}}</td>
+	            </tr>
+	        </tbody>
+	    </table>
+	</ng-template>
+	<ng-template #blocAucunMatchAVenir>Aucun match à venir</ng-template>
+    
     <h2>Match joué</h2>
-    <table class="table-match">
-        <thead>
-            <tr>
-                <th scope="col">Date</th>
-                <th scope="col">Heure</th>
-                <th scope="col">Equipe</th>
-                <th scope="col">Adversaire</th>
-                <th scope="col">Résultat</th>
-                <th scope="col">Score</th>
-            </tr>
-        </thead>
-        <tbody *ngFor="let matchMonth of matchsByMonthJoue">
-            <tr class="tr-month" *ngIf="matchMonth.length > 0">
-                <td colspan="100%">{{matchMonth[0].dateMatch.toLocaleString(fr, { month: "long" })}}</td>
-            </tr>
-            <tr  *ngFor="let match of matchMonth">
-                <td>{{match.dateMatch | date:'dd/MM/yy'}}</td>
-                <td>{{match.heureMatch}}</td>
-                <td>{{match.equipe.nom}}</td>
-                <td>{{match.adversaire}}</td>
-                <td *ngIf="match.scoreEquipe==null||match.scoreAdversaire==null;"></td>
-                <td *ngIf="match.scoreEquipe!=null&&match.scoreAdversaire!=null&&match.scoreEquipe>match.scoreAdversaire;">V</td>
-                <td *ngIf="match.scoreEquipe!=null&&match.scoreAdversaire!=null&&match.scoreEquipe<match.scoreAdversaire;">D</td>      
-                <td>{{match.scoreEquipe}} - {{match.scoreAdversaire}}</td>
-            </tr>
-        </tbody>
-    </table>
+    <div *ngIf="matchsByMonthJoue.length>0; then blocMatchsJoue else blocAucunMatchJoue"></div>
+    <ng-template #blocMatchsJoue>
+		<table class="table-match">
+	        <thead>
+	            <tr>
+	                <th scope="col">Date</th>
+	                <th scope="col">Heure</th>
+	                <th scope="col">Equipe</th>
+	                <th scope="col">Adversaire</th>
+	                <th scope="col">Résultat</th>
+	                <th scope="col">Score</th>
+	            </tr>
+	        </thead>
+	        <tbody *ngFor="let matchMonth of matchsByMonthJoue">
+	            <tr class="tr-month" *ngIf="matchMonth.length > 0">
+	                <td colspan="100%">{{matchMonth[0].dateMatch.toLocaleString(fr, { month: "long" })}}</td>
+	            </tr>
+	            <tr  *ngFor="let match of matchMonth">
+	                <td>{{match.dateMatch | date:'dd/MM/yy'}}</td>
+	                <td>{{match.heureMatch}}</td>
+	                <td>{{match.equipe.nom}}</td>
+	                <td>{{match.adversaire}}</td>
+	                <td *ngIf="match.scoreEquipe==null||match.scoreAdversaire==null;"></td>
+	                <td *ngIf="match.scoreEquipe!=null&&match.scoreAdversaire!=null&&match.scoreEquipe>match.scoreAdversaire;">V</td>
+	                <td *ngIf="match.scoreEquipe!=null&&match.scoreAdversaire!=null&&match.scoreEquipe<match.scoreAdversaire;">D</td>      
+	                <td>{{match.scoreEquipe}} - {{match.scoreAdversaire}}</td>
+	            </tr>
+	        </tbody>
+	    </table>
+	</ng-template>
+    <ng-template #blocAucunMatchJoue>Aucun match à jouer</ng-template>
 </div>

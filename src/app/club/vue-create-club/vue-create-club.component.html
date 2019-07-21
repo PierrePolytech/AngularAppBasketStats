@@ -9,14 +9,14 @@
                 </mat-form-field>
                 <mat-form-field appearance="outline" class="full-width">
                     <mat-label>Code du club</mat-label>
-                    <input formControlName="codeClub" matInput placeholder="Code du club">
+                    <input formControlName="codeClub" matInput>
                 </mat-form-field>
                 <app-autocompletecity (eventVilles)="getVilles($event)"></app-autocompletecity>
                 <mat-form-field appearance="outline" class="full-width">
                     <mat-label>Sport</mat-label>
                     <mat-select name="sports" formControlName="sport">
-                        <mat-option *ngFor="let keySports of keysSports" [value]="keySports">
-                            {{sports[keySports]}}
+                        <mat-option *ngFor="let sport of sports" [value]="sport.nom">
+                            {{sport.nom}}
                         </mat-option>
                     </mat-select>
                 </mat-form-field>

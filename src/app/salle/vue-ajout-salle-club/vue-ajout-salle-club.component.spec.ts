@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { VueSearchEquipeComponent } from './vue-search-equipe.component';
+import { VueAjoutSalleClubComponent } from './vue-ajout-salle-club.component';
 
-describe('VueSearchEquipeComponent', () => {
-  let component: VueSearchEquipeComponent;
-  let fixture: ComponentFixture<VueSearchEquipeComponent>;
+describe('VueAjoutSalleClubComponent', () => {
+  let component: VueAjoutSalleClubComponent;
+  let fixture: ComponentFixture<VueAjoutSalleClubComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ VueSearchEquipeComponent ]
+      declarations: [ VueAjoutSalleClubComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(VueSearchEquipeComponent);
+    fixture = TestBed.createComponent(VueAjoutSalleClubComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

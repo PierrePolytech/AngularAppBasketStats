@@ -1,14 +1,36 @@
 <nav id="nav_site" class="navbar navbar-default">
 	<div class="container-fluid">
 		<a id="titre_nav" class="navbar-brand" href="/">#BasketStats</a>
-		<ul id="info-account" class="navbar-nav ml-auto">
-			<li class="li-account">
-				<a href="/" id="button_connection">Se Connecter <i class="fas fa-angle-down"></i></a>
-			</li>
-			<li class="li-account">
-				<a class="btn btn-outline-danger" href="/Inscription" id="button_inscription" >Inscription</a>
-			</li>
+		<ul id="info-account" class="navbar-nav ml-auto" *ngIf="connect else noconnect">
+			<button mat-button [matMenuTriggerFor]="menu">
+			  <span>{{username}}</span>
+			  <mat-icon>more_vert</mat-icon>
+			</button>
+			<mat-menu #menu="matMenu">
+			  <button mat-menu-item>
+			    <span>Mon profil</span>
+			  </button>
+			  <button mat-menu-item>
+			    <span>Mon calendrier</span>
+			  </button>
+			  <button mat-menu-item>
+			    <span>Mes équipes</span>
+			  </button>
+			  <button mat-menu-item>
+			    <span>Déconnexion</span>
+			  </button>
+			</mat-menu>
 		</ul>
+		<ng-template #noconnect>
+			<ul id="info-account" class="navbar-nav ml-auto">
+				<li class="li-account">
+					<a id="button_connection" (click)="openLoginModal()">Se Connecter <i class="fas fa-angle-down"></i></a>
+				</li>
+				<li class="li-account">
+					<a class="btn btn-outline-danger" href="/inscription" id="button_inscription" >Inscription</a>
+				</li>
+			</ul>
+		</ng-template>
 	</div>
 </nav>
 <ul id="nav_site_secondaire" class="nav nav-justified navbar-light bg-light">

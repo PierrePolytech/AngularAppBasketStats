@@ -46,5 +46,8 @@ export class VueInterneClubComponent implements OnInit {
     getAffichageEquipes() {
         this.affichageMenu = 'Equipes';
     }
-
+    
+    getAffichageParametre() {
+        this.affichageMenu = 'Parametre';
+    }
 }

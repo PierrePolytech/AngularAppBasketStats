@@ -1,9 +1,10 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import {JoueurService} from '../../shared/joueur.service';
 import {MatPaginator, MatTableDataSource, MatSort, MatPaginatorIntl} from '@angular/material';
 import { Joueur } from 'src/app/shared/joueur';
 import { FrenchMatPaginatorIntl } from 'src/app/component/language/frenchmatpaginatorintl';
+import { Club } from 'src/app/shared/club';
 
 @Component({
   selector: 'app-vue-joueur-of-club',
@@ -20,6 +21,8 @@ export class VueJoueurOfClubComponent implements OnInit {
 
     @ViewChild(MatSort) sort: MatSort;
     @ViewChild(MatPaginator) paginator: MatPaginator;
+    
+    @Input() club: Club;
 
     constructor(
         private route: ActivatedRoute,
@@ -31,8 +34,7 @@ export class VueJoueurOfClubComponent implements OnInit {
     }
 
     loadJoueurs() {
-        const id = +this.route.snapshot.paramMap.get('id');
-        this.joueurService.getAllJoueursFromClub(id).subscribe((data: {}) => {
+        this.joueurService.getAllJoueursFromClub(this.club.id).subscribe((data: {}) => {
             this.dataTable.data = data as Joueur[];
         });
         this.dataTable.paginator = this.paginator;

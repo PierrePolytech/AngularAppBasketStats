@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import {EventService} from '../../../shared/event.service';
 import { groupBy, toArray, mergeMap } from 'rxjs/operators';
 import { from } from 'rxjs';
 import { Match } from 'src/app/shared/match';
+import { Club } from 'src/app/shared/club';
 import * as moment from 'moment';
 
 
@@ -15,6 +16,8 @@ import * as moment from 'moment';
 export class VueMatchOfClubComponent implements OnInit {
     matchsByMonthJoue: any[];
     matchsByMonthAVenir: any[];
+    @Input() club: Club;
+    
     constructor(
         private route: ActivatedRoute,
         public eventService: EventService
@@ -28,8 +31,7 @@ export class VueMatchOfClubComponent implements OnInit {
     }
 
     loadMatchs() {
-        const id = +this.route.snapshot.paramMap.get('id');
-        this.eventService.getAllMatchsFromClub(id).subscribe(data  => {
+        this.eventService.getAllMatchsFromClub(this.club.id).subscribe(data  => {
             const json = from(data);
             const matchs = json.pipe(
                 groupBy(match => match.dateMatch.getMonth()),

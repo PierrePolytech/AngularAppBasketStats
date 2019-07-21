@@ -1,0 +1,36 @@
+<div class="div-form-create">
+    <h1 class="titre-form">Créer votre compte</h1>
+    <form class="form-inscription" [formGroup]="inscriptionForm" (ngSubmit)="onSubmit()">
+    	<mat-form-field appearance="outline" class="full-width">
+            <mat-label>Nom</mat-label>
+            <input formControlName="nom" matInput>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Prénom</mat-label>
+            <input formControlName="prenom" matInput>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="full-width">
+        	<mat-label>Date de naissance</mat-label>
+		  	<input formControlName=datenaissance [matDatepicker]="picker" matInput>
+		  	<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+		  	<mat-datepicker #picker></mat-datepicker>
+		</mat-form-field>
+		<mat-radio-group formControlName="sexe">
+		  	<mat-radio-button value="Homme">Homme</mat-radio-button>
+		  	<mat-radio-button value="Femme">Femme</mat-radio-button>
+		</mat-radio-group>
+        <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Email</mat-label>
+            <input type="email" formControlName="email" matInput>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Identifiant</mat-label>
+            <input formControlName="identifiant" matInput>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Mot de passe</mat-label>
+            <input type="password" formControlName="motdepasse" matInput>
+        </mat-form-field>
+        <button type="submit" class="btn btn-success create-club">Valider</button>
+    </form>
+</div>

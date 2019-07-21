@@ -2,6 +2,7 @@ import { Equipe } from './equipe';
 import { Club } from './club';
 
 export class EventJson {
+    id: number;
     title: string;
     dateDebut: string;
     dateFin: string;

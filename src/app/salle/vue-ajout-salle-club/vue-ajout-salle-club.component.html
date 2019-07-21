@@ -1,0 +1,14 @@
+<form [formGroup]="salleForm" (ngSubmit)="onSubmit()">
+    <h1 mat-dialog-title>
+        Ajout d'une salle
+    </h1>
+    <div mat-dialog-content class="div-form-create">
+        <mat-form-field class="full-width">
+            <input formControlName="nom" matInput placeholder="Nom">
+        </mat-form-field>
+		<app-autocomplete-adresse (eventAdresse)="getAdresse($event)"></app-autocomplete-adresse>
+    </div>
+    <div mat-dialog-actions>
+        <button type="submit" class="btn btn-success create-event"> <i class="fa fa-plus-circle"></i>Ajouter la salle</button>
+    </div>
+</form>

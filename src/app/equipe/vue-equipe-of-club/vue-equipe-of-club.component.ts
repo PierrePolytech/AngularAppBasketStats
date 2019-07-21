@@ -30,15 +30,13 @@ export class VueEquipeOfClubComponent implements OnInit, AfterViewInit {
     nomFilter = new FormControl();
     categorieFilter = new FormControl('Tous');
     sexeFilter = new FormControl('Tous');
-    divisionFilter = new FormControl('Tous');
-    pouleFilter = new FormControl('Tous');
+    niveauFilter = new FormControl('Tous');
 
     filteredValues = {
         nom: '',
         categorie: '',
         sexe: '',
-        division: '',
-        poule: ''
+        niveau: ''
     };
 
     constructor(
@@ -56,8 +54,7 @@ export class VueEquipeOfClubComponent implements OnInit, AfterViewInit {
     }
 
     loadEquipes() {
-        const id = +this.route.snapshot.paramMap.get('id');
-        this.equipeService.getAllEquipesFromClub(id).subscribe((data: {}) => {
+        this.equipeService.getAllEquipesFromClub(this.club.id).subscribe((data: {}) => {
             this.dataTable.data = data as Equipe[];
         });
         this.dataTable.paginator = this.paginator;
@@ -67,8 +64,7 @@ export class VueEquipeOfClubComponent implements OnInit, AfterViewInit {
             return data.nom.toString().toLowerCase().includes(searchString.nom.toLowerCase()) &&
                 data.category.toString().toLowerCase().includes(searchString.categorie.toLowerCase()) &&
                 data.sexe.toString().toLowerCase().includes(searchString.sexe.toLowerCase()) &&
-                data.division.toString().toLowerCase().includes(searchString.division.toLowerCase()) &&
-                data.poule.toString().toLowerCase().includes(searchString.poule.toLowerCase());
+                data.niveau.toString().toLowerCase().includes(searchString.niveau.toLowerCase());
         };
     }
 
@@ -79,11 +75,8 @@ export class VueEquipeOfClubComponent implements OnInit, AfterViewInit {
         this.categorieFilter.valueChanges.subscribe((FilterValue) => {
             this.filtre(FilterValue, 'categorie');
         });
-        this.divisionFilter.valueChanges.subscribe((FilterValue) => {
-            this.filtre(FilterValue, 'division');
-        });
-        this.pouleFilter.valueChanges.subscribe((FilterValue) => {
-            this.filtre(FilterValue, 'poule');
+        this.niveauFilter.valueChanges.subscribe((FilterValue) => {
+            this.filtre(FilterValue, 'niveau');
         });
         this.sexeFilter.valueChanges.subscribe((FilterValue) => {
             this.filtre(FilterValue, 'sexe');
@@ -103,7 +96,7 @@ export class VueEquipeOfClubComponent implements OnInit, AfterViewInit {
 
     filtre(filterValue: string, nomColumn: string) {
         if (filterValue === 'Tous') {
-                filterValue = '';
+            filterValue = '';
         }
         this.filteredValues[nomColumn] = filterValue;
         this.dataTable.filter = JSON.stringify(this.filteredValues);

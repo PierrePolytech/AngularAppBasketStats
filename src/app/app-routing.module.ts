@@ -55,7 +55,6 @@ import { VueCreateClubComponent } from './club/vue-create-club/vue-create-club.c
 import { VueEditEquipeComponent } from './equipe/vue-edit-equipe/vue-edit-equipe.component';
 import { VueExterneEquipeComponent } from './equipe/vue-externe-equipe/vue-externe-equipe.component';
 import { VueInterneEquipeComponent } from './equipe/vue-interne-equipe/vue-interne-equipe.component';
-import { VueSearchEquipeComponent } from './equipe/vue-search-equipe/vue-search-equipe.component';
 import { VueCreateEquipeComponent } from './equipe/vue-create-equipe/vue-create-equipe.component';
 
 
@@ -66,6 +65,14 @@ import { VueEditJoueurComponent } from './joueur/vue-edit-joueur/vue-edit-joueur
 // import event
 import { VueCreateEventOfClubComponent } from './event/vue-create-event-of-club/vue-create-event-of-club.component';
 import { VueCreateEventOfEquipeComponent } from './event/vue-create-event-of-equipe/vue-create-event-of-equipe.component';
+import { ModalModificationEventComponent } from './modal/modal-modification-event/modal-modification-event.component';
+import { ModalEditEventClubComponent } from './modal/modal-edit-event-club/modal-edit-event-club.component';
+import { ModalEditEventEquipeComponent } from './modal/modal-edit-event-equipe/modal-edit-event-equipe.component';
+
+// import salle
+import { VueAjoutSalleClubComponent } from './salle/vue-ajout-salle-club/vue-ajout-salle-club.component';
+import { VueInscriptionUtilisateurComponent } from './utilisateur/vue-inscription-utilisateur/vue-inscription-utilisateur.component';
+import { ModalLoginComponent } from './utilisateur/modal-login/modal-login.component';
 
 const routes: Routes = [
     { path: '', pathMatch: 'full', redirectTo: 'clubs' },
@@ -86,6 +93,15 @@ const routes: Routes = [
 
     { path: 'event/club/create', component: VueCreateEventOfClubComponent },
     { path: 'event/equipe/create', component: VueCreateEventOfEquipeComponent },
+    { path: 'event/modification', component: ModalModificationEventComponent },
+    { path: 'event/club/edit', component: ModalEditEventClubComponent },
+    { path: 'event/equipe/edit', component: ModalEditEventEquipeComponent },
+    
+    { path: 'salle/create', component: VueAjoutSalleClubComponent },
+    
+    { path: 'inscription', component: VueInscriptionUtilisateurComponent },
+    
+    { path: 'login', component: ModalLoginComponent }
 ];
 
 @NgModule({

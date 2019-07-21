@@ -39,6 +39,9 @@
             <li class="nav-item">
                 <a class="nav-link" (click)="getAffichageActus()">Actualités</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" (click)="getAffichageParametre()">Paramètres</a>
+            </li>
         </ul>
     </div>
     <div class="div_body_club" [ngSwitch]="affichageMenu">
@@ -46,15 +49,18 @@
             <app-vue-equipe-of-club [club]="club"></app-vue-equipe-of-club>
         </div>
         <div *ngSwitchCase="'Joueurs'">
-            <app-vue-joueur-of-club></app-vue-joueur-of-club>
+            <app-vue-joueur-of-club [club]="club"></app-vue-joueur-of-club>
         </div>
         <div *ngSwitchCase="'Calendrier'">
             <app-vue-event-of-club [club]="club"></app-vue-event-of-club>
         </div>
         <div *ngSwitchCase="'Matchs'">
-            <app-vue-match-of-club></app-vue-match-of-club>
+            <app-vue-match-of-club [club]="club"></app-vue-match-of-club>
         </div>
         <div *ngSwitchCase="'Stats'">Stats</div>
         <div *ngSwitchCase="'Actus'">Actus</div>
+        <div *ngSwitchCase="'Parametre'">
+			<app-vue-parametre-club [club]="club"></app-vue-parametre-club>
+		</div>
     </div>
 </div>

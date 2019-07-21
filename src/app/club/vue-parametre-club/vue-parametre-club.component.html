@@ -1,0 +1,8 @@
+
+<button class="btn btn-success full-width" (click)="openCreateSalleClub()"> <i class="fa fa-plus-circle"></i> Ajouter une salle</button>
+
+<div *ngFor="let salle of salles">
+	<p> Nom de la salle : {{salle.nom}}</p>
+	<p> Adresse : {{salle.numRue}}, {{salle.adresse}} - {{salle.ville.codePostal}} {{salle.ville.nom}} </p>
+	<button class="btn btn-danger" (click)="supprimer(salle)">Supprimer</button>
+</div>

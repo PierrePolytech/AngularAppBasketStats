@@ -1,4 +1,5 @@
 import { Ville } from './ville';
+import { Salle } from './salle';
 
 export class Club {
     constructor(
@@ -8,4 +9,5 @@ export class Club {
     codeClub: string;
     sport: string;
     villes: Ville[];
+    salles: Salle[];
 }

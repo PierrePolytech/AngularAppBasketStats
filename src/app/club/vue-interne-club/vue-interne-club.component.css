@@ -34,3 +34,32 @@
 .Titre_Infos_club{
     font-weight: 650;
 }
+
+/** NAVBAR ***/
+#nav_site_secondaire{
+    font-weight: 700;
+    color: #bbb;
+}
+
+.nav-item:hover, .nav-item:focus {
+    color: #66757f;
+    border-bottom: 3px solid #66757f;
+    margin: 0;
+}
+.nav-item{
+    margin-bottom: 3px;
+}
+
+.navbar {
+    padding: 15px 10px;
+    background: #fff;
+    border: none;
+    border-radius: 0;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-btn {
+    box-shadow: none;
+    outline: none !important;
+    border: none;
+}

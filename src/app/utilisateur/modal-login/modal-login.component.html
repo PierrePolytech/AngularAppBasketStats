@@ -1,0 +1,18 @@
+<form class="form-login" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <h1 mat-dialog-title>
+        Vous avez déjà un compte ?
+    </h1>
+    <div mat-dialog-content class="div-form-create">
+        <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Adresse mail ou identifiant</mat-label>
+            <input formControlName="username" matInput>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Mot de passe</mat-label>
+            <input type="password" formControlName="password" matInput>
+        </mat-form-field>
+    </div>
+    <div mat-dialog-actions>
+        <button type="submit" class="btn btn-success">Se connecter</button>
+    </div>
+</form>

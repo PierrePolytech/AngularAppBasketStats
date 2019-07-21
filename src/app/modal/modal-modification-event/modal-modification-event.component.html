@@ -1,0 +1,16 @@
+<div class="modal-confirm">
+    <h1 mat-dialog-title>
+        Confirmer la modification de l'événement ?
+    </h1>
+    <div mat-dialog-content>
+    	<p>Modification : </p>
+    	<p>Date de début : {{event.start | date:'d MMMM yyyy'}} -> {{newStart | date:'d MMMM yyyy'}}</p>
+    	<p>Heure de début : {{event.start | date:'HH:mm'}} -> {{newStart | date:'HH:mm'}}</p>
+    	<p>Date de fin : {{event.end | date:'d MMMM yyyy'}} -> {{newEnd | date:'d MMMM yyyy'}}</p>
+    	<p>Heure de fin : {{event.end | date:'HH:mm'}} -> {{newEnd | date:'HH:mm'}}</p>
+    </div>
+    <div mat-dialog-actions>
+        <button type="submit" class="btn btn-success" (click)="confirmer()">OUI</button>
+        <button type="submit" class="btn btn-danger" (click)="annuler()">NON</button>
+    </div>
+</div>

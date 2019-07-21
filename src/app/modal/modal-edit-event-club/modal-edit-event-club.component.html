@@ -1,0 +1,51 @@
+<form class="form-club" [formGroup]="eventForm" (ngSubmit)="onSubmit()">
+    <h1 mat-dialog-title>
+        Modification d'un événement club
+    </h1>
+    <div mat-dialog-content class="div-form-create">
+        <mat-form-field class="full-width">
+            <input formControlName="title" matInput placeholder="Titre">
+        </mat-form-field>
+        <mat-checkbox formControlName="recurent" (change)="onChange($event)">Evènement Récurent</mat-checkbox>
+        <div id="div-semaine">
+            <mat-chip-list #chipListWeek [multiple]="true" [selectable]="true" >
+            	<mat-chip  *ngFor="let chip of chipsDays" selected="{{chip.selected}}" value="{{chip.value}}" id="{{chip.id}}" (click)="selectChip(chip)" [selectable]="true" color="accent">{{chip.label}}</mat-chip>
+             </mat-chip-list>
+        </div>
+        <div class="full-width">
+            <mat-form-field>
+                <input matInput formControlName="startDate" [matDatepicker]="dateStart" placeholder="Date de début" >
+                <mat-datepicker-toggle matSuffix [for]="dateStart"></mat-datepicker-toggle>
+                <mat-datepicker #dateStart></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field class="input-time">
+                <input type="time" formControlName="startTime" matInput placeholder="Heure de début">
+            </mat-form-field>
+        </div>
+        <div class="full-width">
+            <mat-form-field>
+                <input matInput formControlName="endDate" [matDatepicker]="dateEnd" placeholder="Date de Fin">
+                <mat-datepicker-toggle matSuffix [for]="dateEnd"></mat-datepicker-toggle>
+                <mat-datepicker #dateEnd></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field class="input-time">
+                <input type="time" formControlName="endTime" matInput placeholder="Heure de fin">
+            </mat-form-field>
+        </div>
+        <mat-form-field class="full-width">
+            <mat-label>Type</mat-label>
+            <mat-select name="typeEvents" formControlName="type">
+                <mat-option *ngFor="let key of keysTypeEvent" [value]="key">
+                    {{typeEvents[key]}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field class="full-width">
+            <textarea matInput formControlName="infosSup" placeholder="Informations supplémentaires"></textarea>
+        </mat-form-field>
+    </div>
+    <div mat-dialog-actions>
+        <button type="submit" class="btn btn-success">Modifier</button>
+        <button class="btn btn-danger" (click)="annuler()">Annuler</button>
+    </div>
+</form>

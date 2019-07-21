@@ -1,10 +1,13 @@
 import { Component, OnInit} from '@angular/core';
+import { Router} from '@angular/router';
 import {FormControl, FormGroup} from '@angular/forms';
 import { EnumSport } from 'src/app/shared/enum/enumsport';
 import { ClubService } from 'src/app/shared/club.service';
-import { Ville } from 'src/app/shared/ville';
-import { HttpClient } from '@angular/common/http';
 import { VilleService } from 'src/app/shared/ville.service';
+import { ConfigurationService } from 'src/app/shared/configuration/configuration.service';
+import { Ville } from 'src/app/shared/ville';
+import { Sport } from 'src/app/shared/configuration/sport';
+import { HttpClient } from '@angular/common/http';
 import { tap } from 'rxjs/operators';
 
 interface RetourApi {
@@ -26,20 +29,20 @@ export class VueCreateClubComponent implements OnInit {
         villes: new FormControl('')
     });
     // Enum Sport (Basket, ...)
-    sports = EnumSport;
-    keysSports = [];
+    sports: Sport[] = [];
     villesApi: any;
     ville: Ville;
 
     constructor(
         public clubService: ClubService,
         public villeService: VilleService,
-        private http: HttpClient
-    ) {
-        this.keysSports = Object.keys(this.sports);
-    }
+        public configurationService: ConfigurationService,
+        private http: HttpClient,
+        private router: Router
+    ) {}
 
     ngOnInit() {
+        this.loadConfiguration();
     }
 
     onSubmit() {
@@ -61,14 +64,14 @@ export class VueCreateClubComponent implements OnInit {
                 }
             );
             this.clubForm.value.villes = listeVilles;
-            console.log(JSON.stringify(this.clubForm.value));
             this.clubService.createClub(this.clubForm.value).subscribe(
-                success => alert('Done'),
+                data => this.router.navigate(['/club/' + data.id + '/interne']),
                 error => alert(error)
             );
         };
         start();
     }
+    
     getVilles(data) {
         this.villesApi = data;
     }
@@ -77,5 +80,11 @@ export class VueCreateClubComponent implements OnInit {
         for (let index = 0; index < array.length; index++) {
             await callback(array[index], index, array);
         }
+    }
+    
+    loadConfiguration() {
+        return this.configurationService.getAllSports().subscribe((data: {}) => {
+            this.sports = data as Sport[];
+        });   
     }
 }
