@@ -74,6 +74,11 @@ import { VueAjoutSalleClubComponent } from './salle/vue-ajout-salle-club/vue-ajo
 import { VueInscriptionUtilisateurComponent } from './utilisateur/vue-inscription-utilisateur/vue-inscription-utilisateur.component';
 import { ModalLoginComponent } from './utilisateur/modal-login/modal-login.component';
 
+// Pages connected
+import { VueEventOfJoueurComponent } from './event/vue-event-of-joueur/vue-event-of-joueur.component';
+import { VueEquipeOfJoueurComponent } from './equipe/vue-equipe-of-joueur/vue-equipe-of-joueur.component';
+import { VueProfilUtilisateurComponent } from './utilisateur/vue-profil-utilisateur/vue-profil-utilisateur.component';
+
 const routes: Routes = [
     { path: '', pathMatch: 'full', redirectTo: 'clubs' },
 
@@ -101,7 +106,11 @@ const routes: Routes = [
     
     { path: 'inscription', component: VueInscriptionUtilisateurComponent },
     
-    { path: 'login', component: ModalLoginComponent }
+    { path: 'login', component: ModalLoginComponent },
+    
+    { path: 'mon-profil', component: VueProfilUtilisateurComponent },
+    { path: 'mes-equipes', component: VueEquipeOfJoueurComponent },
+    { path: 'mon-calendrier', component: VueEventOfJoueurComponent }
 ];
 
 @NgModule({

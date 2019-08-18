@@ -7,18 +7,18 @@
 			  <mat-icon>more_vert</mat-icon>
 			</button>
 			<mat-menu #menu="matMenu">
-			  <button mat-menu-item>
+			  <a href="/mon-profil" mat-menu-item>
 			    <span>Mon profil</span>
-			  </button>
-			  <button mat-menu-item>
+			  </a>
+			  <a href="/mon-calendrier" mat-menu-item>
 			    <span>Mon calendrier</span>
-			  </button>
-			  <button mat-menu-item>
+			  </a>
+			  <a href="/mes-equipes" mat-menu-item>
 			    <span>Mes équipes</span>
-			  </button>
-			  <button mat-menu-item>
+			  </a>
+			  <a mat-menu-item (click)="deconnexion()">
 			    <span>Déconnexion</span>
-			  </button>
+			  </a>
 			</mat-menu>
 		</ul>
 		<ng-template #noconnect>
@@ -41,9 +41,9 @@
 		<a class="nav-link" href="/clubs">clubs</a>
 	</li>
 	<li class="nav-item">
-		<a class="nav-link" href="/FAQ">FAQ</a>
+		<a class="nav-link" href="/faq">FAQ</a>
 	</li>
 	<li class="nav-item">
-		<a class="nav-link" href="/Fonctionnalites">Fonctionnalités</a>
+		<a class="nav-link" href="/fonctionnalites">Fonctionnalités</a>
 	</li>
 </ul>

@@ -13,7 +13,7 @@ export class UserService {
 
   // Define API
   apiURL = 'http://localhost:8080';
-  userConnected: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  userConnected: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(this.isConnected());
     
   constructor(private http: HttpClient) { }
 
@@ -41,13 +41,25 @@ export class UserService {
     );
   }
     
-  connectUser(userConnection): Observable<UserConnection> {
+  getUser(): Observable<User> {
+    return this.http.get<User>(this.apiURL + '/utilisateur')
+    .pipe(
+      retry(1),
+      catchError(this.handleError)
+    );
+  }
+    
+  connectUser(userConnection): Observable<any> {
       return this.http.post<UserConnection>(this.apiURL + '/auth', JSON.stringify(userConnection), this.httpOptions)
     .pipe(
       retry(1),
       catchError(this.handleError),
       tap(
-        data => this.userConnected.next(true)
+        data => {
+            localStorage.setItem('id_token', data.token);
+            localStorage.setItem('refresh_token', data.refreshToken);
+            this.userConnected.next(true);
+        }
       )
     );
   }
@@ -65,10 +77,13 @@ export class UserService {
       this.userConnected.next(false);
   }
     
-  isUserConnect(): boolean {
-      const idToken = localStorage.getItem("id_token");
-      return idToken ? true : false;
-  }  
+  isConnected(){
+      if(localStorage.getItem('refresh_token') && localStorage.getItem('id_token')){
+        return true;
+      } else {
+        return false;    
+      }
+  }
 
   // Error handling
   handleError(error) {

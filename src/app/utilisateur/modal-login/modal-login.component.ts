@@ -32,19 +32,13 @@ export class ModalLoginComponent implements OnInit {
         user.password = this.loginForm.value.password;
         this.userService.connectUser(user).subscribe(
             success => {
-                this.setCookie(success);
+                this.dialogRef.close(false);
             },
             error => alert(error)
         );
     }
     
     onNoClick(): void {
-        this.dialogRef.close(false);
-    }
-    
-    private setCookie(result) {
-        localStorage.setItem('id_token', result.token);
-        localStorage.setItem('refresh_token', result.refreshToken);
         this.dialogRef.close(false);
     }
 }

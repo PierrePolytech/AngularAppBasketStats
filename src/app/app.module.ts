@@ -69,6 +69,9 @@ import { ModalLoginComponent } from './utilisateur/modal-login/modal-login.compo
 
 import { AuthInterceptor } from './shared/authInterceptor';
 import { AuthErrorHandler } from './shared/authErrorHandler';
+import { VueEventOfJoueurComponent } from './event/vue-event-of-joueur/vue-event-of-joueur.component';
+import { VueEquipeOfJoueurComponent } from './equipe/vue-equipe-of-joueur/vue-equipe-of-joueur.component';
+import { VueProfilUtilisateurComponent } from './utilisateur/vue-profil-utilisateur/vue-profil-utilisateur.component';
 
 
 registerLocaleData(localeFr);
@@ -107,7 +110,10 @@ registerLocaleData(localeFr);
     VueAjoutSalleClubComponent,
     AutocompleteAdresseComponent,
     VueInscriptionUtilisateurComponent,
-    ModalLoginComponent
+    ModalLoginComponent,
+    VueEventOfJoueurComponent,
+    VueEquipeOfJoueurComponent,
+    VueProfilUtilisateurComponent
   ],
   imports: [
     NgbModule,

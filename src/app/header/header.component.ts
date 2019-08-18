@@ -21,9 +21,11 @@ export class HeaderComponent implements OnInit {
     ngOnInit() {
         this.userService.isLoggedIn.subscribe(
             data=> {
-                this.connect =data;
-                const token = jwt_decode(localStorage.getItem("id_token"));
-                this.username = token.username;
+                this.connect = data;
+                if(this.connect) {
+                    const token = jwt_decode(localStorage.getItem("id_token"));
+                    this.username =  token.username;
+                }
             }
         );
     }
