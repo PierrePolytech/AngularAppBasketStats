@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalLoginComponent } from '../utilisateur/modal-login/modal-login.component';
+
 import { MatDialog } from '@angular/material';
 import { UserService } from 'src/app/shared/user.service';
+import { ModalService } from 'src/app/shared/modal.service';
 import { Observable } from 'rxjs';
 import * as jwt_decode from 'jwt-decode';
 
@@ -14,8 +15,8 @@ export class HeaderComponent implements OnInit {
     connect : boolean;
     username: string;
     constructor(
-        public dialogLogin: MatDialog,
-        public userService: UserService
+        public userService: UserService,
+        public modalService: ModalService
     ) { }
 
     ngOnInit() {
@@ -29,11 +30,9 @@ export class HeaderComponent implements OnInit {
             }
         );
     }
-    
+
     openLoginModal(){
-        const dialogLogin = this.dialogLogin.open(ModalLoginComponent, {
-            width: '50%'
-        });
+        this.modalService.openInscriptionModal();
     }
     
     deconnexion() {

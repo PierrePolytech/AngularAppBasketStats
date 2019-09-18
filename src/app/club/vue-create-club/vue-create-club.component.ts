@@ -1,6 +1,6 @@
 import { Component, OnInit} from '@angular/core';
 import { Router} from '@angular/router';
-import {FormControl, FormGroup} from '@angular/forms';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 import { EnumSport } from 'src/app/shared/enum/enumsport';
 import { ClubService } from 'src/app/shared/club.service';
 import { VilleService } from 'src/app/shared/ville.service';
@@ -8,7 +8,8 @@ import { ConfigurationService } from 'src/app/shared/configuration/configuration
 import { Ville } from 'src/app/shared/ville';
 import { Sport } from 'src/app/shared/configuration/sport';
 import { HttpClient } from '@angular/common/http';
-import { tap } from 'rxjs/operators';
+import { debounceTime, tap, switchMap, finalize } from 'rxjs/operators';
+import { ErrorStateMatcherOnBlur }  from 'src/app/component/validator/errorstatematcheronblur';
 
 interface RetourApi {
     nom: string;
@@ -23,15 +24,19 @@ interface RetourApi {
 })
 export class VueCreateClubComponent implements OnInit {
     clubForm = new FormGroup({
-        nom: new FormControl(''),
-        codeClub: new FormControl(''),
-        sport: new FormControl(''),
+        nomcomplet: new FormControl('',{validators : [Validators.required, Validators.minLength(3), Validators.maxLength(200)], updateOn: 'blur'}),
+        nom: new FormControl('',{validators : [Validators.required, Validators.minLength(2), Validators.maxLength(200)], updateOn: 'blur'}),
+        url: new FormControl('',{validators : [Validators.required, Validators.minLength(3), Validators.maxLength(15)]}),
+        codeClub: new FormControl('',{validators : [Validators.required, Validators.minLength(2), Validators.maxLength(50)], updateOn: 'blur'}),
+        sport: new FormControl('',{validators : [Validators.required], updateOn: 'blur'}),
         villes: new FormControl('')
     });
     // Enum Sport (Basket, ...)
     sports: Sport[] = [];
     villesApi: any;
     ville: Ville;
+    urlexist: boolean;
+    isLoading = false;
 
     constructor(
         public clubService: ClubService,
@@ -44,6 +49,9 @@ export class VueCreateClubComponent implements OnInit {
     ngOnInit() {
         this.loadConfiguration();
     }
+    
+    // convenience getter for easy access to form fields
+    get f() { return this.clubForm.controls; }
 
     onSubmit() {
         const listeVilles = [];
@@ -64,9 +72,10 @@ export class VueCreateClubComponent implements OnInit {
                 }
             );
             this.clubForm.value.villes = listeVilles;
+            this.clubForm.value.url = this.clubForm.value.url.toLowerCase();
             this.clubService.createClub(this.clubForm.value).subscribe(
                 data => this.router.navigate(['/club/' + data.id + '/interne']),
-                error => alert(error)
+                error => console.log(error)
             );
         };
         start();
@@ -86,5 +95,12 @@ export class VueCreateClubComponent implements OnInit {
         return this.configurationService.getAllSports().subscribe((data: {}) => {
             this.sports = data as Sport[];
         });   
+    }
+    
+    isExistURL(){
+        this.clubService.existUrlClub(this.clubForm.value.url.toLowerCase()).subscribe(
+            data => {if(data) this.f.url.setErrors({'urlexist': true});},
+            error => console.log(error)
+        )
     }
 }

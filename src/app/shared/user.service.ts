@@ -32,20 +32,22 @@ export class UserService {
     return this.userConnected.asObservable();
   }
     
+  get isLoggedInValue() {
+    return this.userConnected.value;
+  }
+    
   // HttpClient API post() method => Create salle
   createUser(user): Observable<User> {
     return this.http.post<User>(this.apiURL + '/utilisateur', JSON.stringify(user), this.httpOptions)
     .pipe(
-      retry(1),
-      catchError(this.handleError)
+      retry(1)
     );
   }
     
   getUser(): Observable<User> {
     return this.http.get<User>(this.apiURL + '/utilisateur')
     .pipe(
-      retry(1),
-      catchError(this.handleError)
+      retry(1)
     );
   }
     
@@ -53,7 +55,6 @@ export class UserService {
       return this.http.post<UserConnection>(this.apiURL + '/auth', JSON.stringify(userConnection), this.httpOptions)
     .pipe(
       retry(1),
-      catchError(this.handleError),
       tap(
         data => {
             localStorage.setItem('id_token', data.token);
@@ -67,8 +68,7 @@ export class UserService {
   refreshToken(token): Observable<Token> {
       return this.http.post<Token>(this.apiURL + '/auth/refresh', JSON.stringify(token), this.httpOptions)
     .pipe(
-      retry(1),
-      catchError(this.handleError)
+      retry(1)
     );
   }
     
@@ -83,19 +83,5 @@ export class UserService {
       } else {
         return false;    
       }
-  }
-
-  // Error handling
-  handleError(error) {
-     let errorMessage = '';
-     if (error.error instanceof ErrorEvent) {
-       // Get client-side error
-       errorMessage = error.error.message;
-     } else {
-       // Get server-side error
-       errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
-     }
-     //window.alert(errorMessage);
-     return throwError(error);
   }
 }

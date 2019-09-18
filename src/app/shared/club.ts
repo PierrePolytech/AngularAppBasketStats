@@ -5,6 +5,8 @@ export class Club {
     constructor(
         public id: number
     ) { }
+    nomcomplet: string;
+    url: string;
     nom: string;
     codeClub: string;
     sport: string;

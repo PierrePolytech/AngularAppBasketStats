@@ -72,49 +72,58 @@ import { ModalEditEventEquipeComponent } from './modal/modal-edit-event-equipe/m
 // import salle
 import { VueAjoutSalleClubComponent } from './salle/vue-ajout-salle-club/vue-ajout-salle-club.component';
 import { VueInscriptionUtilisateurComponent } from './utilisateur/vue-inscription-utilisateur/vue-inscription-utilisateur.component';
-import { ModalLoginComponent } from './utilisateur/modal-login/modal-login.component';
 
 // Pages connected
 import { VueEventOfJoueurComponent } from './event/vue-event-of-joueur/vue-event-of-joueur.component';
 import { VueEquipeOfJoueurComponent } from './equipe/vue-equipe-of-joueur/vue-equipe-of-joueur.component';
 import { VueProfilUtilisateurComponent } from './utilisateur/vue-profil-utilisateur/vue-profil-utilisateur.component';
+import { VueLoginComponent } from './utilisateur/vue-login/vue-login.component';
+
+//Modal
+import { ModalLoginComponent } from './modal/modal-login/modal-login.component';
+import { ModalInscriptionComponent } from './modal/modal-inscription/modal-inscription.component';
+
+// AuthGuard
+import { AuthGuard } from './shared/guard/authguard';
+
+
 
 const routes: Routes = [
     { path: '', pathMatch: 'full', redirectTo: 'clubs' },
 
-    { path: 'club/create', component: VueCreateClubComponent },
+    { path: 'club/create', component: VueCreateClubComponent, canActivate: [AuthGuard]  },
     { path: 'clubs', component: VueSearchClubComponent },
-    { path: 'club/:id', component: VueEditClubComponent },
-    { path: 'club/:id/interne', component: VueInterneClubComponent },
-    { path: 'club/:id/externe', component: VueExterneClubComponent },
+    { path: 'club/:url', component: VueInterneClubComponent},
 
     { path: 'equipe/create', component: VueCreateEquipeComponent },
     { path: 'equipe/:id', component: VueEditEquipeComponent },
     { path: 'equipe/:id/interne', component: VueInterneEquipeComponent },
     { path: 'equipe/:id/externe', component: VueExterneEquipeComponent },
 
-    { path: 'joueur/create', component: VueCreateJoueurComponent },
     { path: 'joueur/:id', component: VueEditJoueurComponent },
-
-    { path: 'event/club/create', component: VueCreateEventOfClubComponent },
-    { path: 'event/equipe/create', component: VueCreateEventOfEquipeComponent },
-    { path: 'event/modification', component: ModalModificationEventComponent },
-    { path: 'event/club/edit', component: ModalEditEventClubComponent },
-    { path: 'event/equipe/edit', component: ModalEditEventEquipeComponent },
-    
-    { path: 'salle/create', component: VueAjoutSalleClubComponent },
     
     { path: 'inscription', component: VueInscriptionUtilisateurComponent },
-    
-    { path: 'login', component: ModalLoginComponent },
+    { path: 'login', component: VueLoginComponent },
     
     { path: 'mon-profil', component: VueProfilUtilisateurComponent },
     { path: 'mes-equipes', component: VueEquipeOfJoueurComponent },
     { path: 'mon-calendrier', component: VueEventOfJoueurComponent }
 ];
 
+const routesChild: Routes = [
+    { path: '', component: ModalLoginComponent },
+    { path: '', component: ModalModificationEventComponent },
+    { path: '', component: ModalEditEventClubComponent },
+    { path: '', component: ModalEditEventEquipeComponent },
+    { path: '', component: VueCreateEventOfClubComponent },
+    { path: '', component: VueCreateEventOfEquipeComponent },
+    { path: '', component: VueCreateJoueurComponent },
+    { path: '', component: ModalInscriptionComponent },
+    { path: '', component: VueAjoutSalleClubComponent }
+];
+
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes),RouterModule.forChild(routesChild)],
   exports: [
     RouterModule,
     A11yModule,

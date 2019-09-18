@@ -1,10 +1,11 @@
 import { Component, OnInit, ViewChild, ElementRef, Output, EventEmitter } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { debounceTime, tap, switchMap, finalize } from 'rxjs/operators';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import { MatAutocompleteSelectedEvent, MatAutocomplete } from '@angular/material';
 import { Ville } from 'src/app/shared/ville';
+import { ErrorStateMatcherOnBlur }  from 'src/app/component/validator/errorstatematcheronblur';
 
 @Component({
   selector: 'app-autocompletecity',
@@ -12,13 +13,14 @@ import { Ville } from 'src/app/shared/ville';
   styleUrls: ['./autocompletecity.component.css']
 })
 export class AutocompletecityComponent implements OnInit {
-    villeCtrl = new FormControl();
+    villeCtrl = new FormControl('');
     filteredVilles: any;
     isLoading = false;
     villesChoisi: any = [];
     separatorKeysCodes: number[] = [ENTER, COMMA];
     @ViewChild('auto') matAutocomplete: MatAutocomplete;
     @ViewChild('villeInput') villeInput: ElementRef<HTMLInputElement>;
+    @ViewChild('chipList') chipList;
     @Output() eventVilles = new EventEmitter<any>();
 
     constructor(
@@ -63,7 +65,16 @@ export class AutocompletecityComponent implements OnInit {
     selected(event: MatAutocompleteSelectedEvent): void {
         this.villesChoisi.push(event.option.value);
         this.villeInput.nativeElement.value = '';
-        this.villeCtrl.setValue(null);
+        this.villeCtrl.setValue('');
         this.eventVilles.emit(this.villesChoisi);
+        this.chipList.errorState = false;
+    }
+    
+    onBlur(){
+        if(this.villesChoisi.length <=0){
+            this.chipList.errorState = true;
+        } else {
+            this.chipList.errorState = false;
+        }   
     }
 }

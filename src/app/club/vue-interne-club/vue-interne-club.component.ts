@@ -23,8 +23,8 @@ export class VueInterneClubComponent implements OnInit {
     }
 
     getClub() {
-        const id = +this.route.snapshot.paramMap.get('id');
-        this.clubService.getClub(id).subscribe(club => this.club = club);
+        const url = this.route.snapshot.params.url;
+        this.clubService.getClubByURL(url).subscribe(club => this.club = club);
     }
 
     getAffichageActus() {

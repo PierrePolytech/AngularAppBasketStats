@@ -1,3 +1,12 @@
-<p>
-  vue-equipe-of-joueur works!
-</p>
+<table class="table-equipe">
+    <thead>
+        <tr>
+            <th scope="col">Nom</th>
+        </tr>
+    </thead>
+    <tbody *ngFor="let equipe of equipes">
+        <tr>
+            <td>{{equipe.nom}}</td>
+        </tr>
+    </tbody>
+</table>

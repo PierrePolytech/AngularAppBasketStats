@@ -2,26 +2,23 @@
     margin-top: 5%;
 }
 
-.full-width {
-  width: 100%;
+.titre-form{
+	margin-bottom: 3%;
 }
 
 .create-club{
     width: 100%;
 }
 
-.div-diapo, .div-form-create{
+.div-form-create{
     margin: 0;
-    width: 50%;
-    display: inline-block;
+    width: 100%;
     vertical-align: middle;
 }
 
 .div-form-create{
-    padding-right: 3%;
-    padding-left: 3%;
-    padding-top: 1%;
-    padding-bottom: 1%;
+    padding: 3%;
+    text-align: center;
 }
 
 .div-create-club {
@@ -33,23 +30,3 @@
 mat-form-field.mat-form-field {
   font-size: 14px;
 }
-.img-fluid{
-    width: 100%;
-}
-
-.carousel-inner{border-radius:0 10px 10px 0;}
-.carousel-caption{text-align:left; left:5%;}
-.login-sec{padding: 50px 30px; position:relative;}
-.login-sec .copy-text{position:absolute; width:80%; bottom:20px; font-size:100%; text-align:center;}
-.login-sec .copy-text i{color:#304352;}
-.login-sec .copy-text a{color:#304352;}
-h2{margin-top:0px;margin-bottom:0px; font-weight:800; font-size:30px; color: #66757f;padding-top: 15px}
-h2:after{content:" "; width:100px; height:5px; background:#66757f; display:block; margin-top:20px; border-radius:3px; margin-left:auto;margin-right:auto}
-
-.btn-login{background: #304352; color:#fff; font-weight:600;}
-.banner-text{width:100%; position:absolute; bottom:40px; padding-left:20px;}
-.banner-text h2{color:#fff; font-weight:600;text-shadow: 2px 2px 4px #000000;}
-.banner-text h2:after{content:" "; width:100px; height:5px; background:#FFF; display:block; margin-top:20px; border-radius:3px;}
-.banner-text p{color:#fff;text-shadow: 2px 2px 4px #000000;}
-
-.banner-text p h2{text-shadow: 2px 2px 4px #000000;}

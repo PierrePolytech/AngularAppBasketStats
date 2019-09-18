@@ -1,36 +1,81 @@
-<div class="div-form-create">
-    <h1 class="titre-form">Créer votre compte</h1>
+<div class="div-form-create col-lg-4 offset-lg-4 col-md-8 offset-md-2 col-sm-12 col-xs-12">
+    <h1 class="titre-center">Créer votre compte</h1>
     <form class="form-inscription" [formGroup]="inscriptionForm" (ngSubmit)="onSubmit()">
     	<mat-form-field appearance="outline" class="full-width">
             <mat-label>Nom</mat-label>
-            <input formControlName="nom" matInput>
+            <input formControlName="nom" matInput required>
+            <mat-error *ngIf="f.nom.hasError('required')">
+		    	Veuillez entrer un nom
+		    </mat-error>
+		    <mat-error *ngIf="f.nom.hasError('minlength')">
+		    	Votre nom doit contenir au moins 2 caractères
+		    </mat-error>
+		    <mat-error *ngIf="f.nom.hasError('maxlength')">
+		    	Votre nom doit contenir au maximum 200 caractères
+		    </mat-error>
         </mat-form-field>
         <mat-form-field appearance="outline" class="full-width">
             <mat-label>Prénom</mat-label>
-            <input formControlName="prenom" matInput>
+            <input formControlName="prenom" matInput required>
+            <mat-error *ngIf="f.prenom.hasError('required')">
+		    	Veuillez entrer un prenom
+		    </mat-error>
+		    <mat-error *ngIf="f.prenom.hasError('minlength')">
+		    	Votre prenom doit contenir au moins 2 caractères
+		    </mat-error>
+		    <mat-error *ngIf="f.prenom.hasError('maxlength')">
+		    	Votre prenom doit contenir au maximum 200 caractères
+		    </mat-error>
         </mat-form-field>
         <mat-form-field appearance="outline" class="full-width">
         	<mat-label>Date de naissance</mat-label>
-		  	<input formControlName=datenaissance [matDatepicker]="picker" matInput>
+		  	<input formControlName=datenaissance [matDatepicker]="picker" matInput required>
 		  	<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
 		  	<mat-datepicker #picker></mat-datepicker>
+		  	<mat-error *ngIf="f.datenaissance.hasError('required')">
+		    	Veuillez entrer une date de naissance
+		    </mat-error>
 		</mat-form-field>
-		<mat-radio-group formControlName="sexe">
-		  	<mat-radio-button value="Homme">Homme</mat-radio-button>
-		  	<mat-radio-button value="Femme">Femme</mat-radio-button>
+		<mat-radio-group formControlName="sexe" required class="radio-buttons">
+		  	<mat-radio-button class="radio-sexe" value="Homme">Homme</mat-radio-button>
+		  	<mat-radio-button class="radio-sexe" value="Femme">Femme</mat-radio-button>
 		</mat-radio-group>
         <mat-form-field appearance="outline" class="full-width">
             <mat-label>Email</mat-label>
-            <input type="email" formControlName="email" matInput>
+            <input type="email" formControlName="email" matInput email required>
+            <mat-error *ngIf="f.email.hasError('required')">
+		    	Veuillez entrer un email
+		    </mat-error>
+		    <mat-error *ngIf="f.email.hasError('email')">
+		    	Le format de votre email ne semble pas correcte
+		    </mat-error>
         </mat-form-field>
         <mat-form-field appearance="outline" class="full-width">
             <mat-label>Identifiant</mat-label>
-            <input formControlName="identifiant" matInput>
+            <input formControlName="identifiant" matInput required>
+            <mat-error *ngIf="f.identifiant.hasError('required')">
+		    	Veuillez entrer un identifiant
+		    </mat-error>
+		    <mat-error *ngIf="f.nom.hasError('minlength')">
+		    	Votre identifiant doit contenir au moins 2 caractères
+		    </mat-error>
+		    <mat-error *ngIf="f.nom.hasError('maxlength')">
+		    	Votre identifiant doit contenir au maximum 50 caractères
+		    </mat-error>
         </mat-form-field>
         <mat-form-field appearance="outline" class="full-width">
             <mat-label>Mot de passe</mat-label>
-            <input type="password" formControlName="motdepasse" matInput>
+            <input type="password" formControlName="motdepasse" matInput required>
+            <mat-error *ngIf="f.motdepasse.hasError('required')">
+		    	Veuillez entrer un mot de passe
+		    </mat-error>
+		    <mat-error *ngIf="f.motdepasse.hasError('minlength')">
+		    	Votre mot de passe doit contenir au moins 6 caractères
+		    </mat-error>
+		    <mat-error *ngIf="f.motdepasse.hasError('maxlength')">
+		    	Votre mot de passe doit contenir au maximum 200 caractères
+		    </mat-error>
         </mat-form-field>
-        <button type="submit" class="btn btn-success create-club">Valider</button>
+        <button type="submit" class="btn btn-success">Valider</button>
     </form>
 </div>

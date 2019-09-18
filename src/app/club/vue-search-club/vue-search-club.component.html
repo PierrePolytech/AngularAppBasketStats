@@ -7,7 +7,7 @@
 					<span class="input-group-btn">
 						<button class="btn btn-default" type="button"><i class="fa fa-search"></i></button>
 					</span>
-					<input class="form-control" type="text" id="example-search-input" (keyup)="loadClubs($event.target.value)" placeholder="Rechercher un club">
+					<input class="form-control" type="text" id="search-input" (keyup)="searchClubs($event.target.value)" placeholder="Rechercher un club">
 				</div>
 			</div>
 		</div>
@@ -18,8 +18,14 @@
 		</div>
 	</div>
 	<div class="container">
+		<mat-paginator #paginatorTop 
+			[length]="length"
+            [pageSize]="pageSize"
+            [pageSizeOptions]="pageSizeOptions"
+            (page)="pageEvent = onChangePageTop($event)">
+		</mat-paginator>
 		<div id="result_recherche" class="row">
-			<div class="div_club col-lg-4 col-md-6 col-sm-12 col-xs-12" *ngFor="let club of Club">
+			<div class="div_club col-lg-4 col-md-6 col-sm-12 col-xs-12" *ngFor="let club of clubs">
 				<div class="inside_div_club">
 					<div class="header_div_club">
 						<img class="photo_club" src="assets/img/photo_club.jpg">
@@ -28,11 +34,16 @@
 						<div class="logo_div_club">
 							<img class="logo_club" src="assets/img/logo_club.png">
 						</div>
-						<span class="Infos_club nomClub">{{club.nom}}</span>
-						<span class="Infos_club sport">
-							<i class="fa fa-basketball-ball"></i>
-							{{club.sport}}
-						</span>
+						<span class="Infos_club nomClub">{{club.nomcomplet}}</span>
+						<div class="Infos_club sport" [ngSwitch]="club.sport">
+						  <span *ngSwitchCase="'BasketBall'">
+						  	<i class="fa fa-basketball-ball"></i> {{club.sport}}
+						  </span>
+						  <span *ngSwitchCase="'Football'">
+						  	<i class="fa fa-futbol"></i> {{club.sport}}
+						  </span>
+						  <p *ngSwitchDefault>{{club.sport}}</p>
+						</div>
 						<span class="Infos_club region">
 							<i class="fas fa-map-marker-alt"></i>
 							{{club.villes[0].region}}
@@ -44,11 +55,17 @@
 					</div>
 					<div class="footer_div_club">
 						<i class="fa fa-sort-down"></i>
-						<a href="/club/{{club.id}}/interne">Voir plus</a>
+						<a href="/club/{{club.url}}">Voir plus</a>
 						<i class="fa fa-sort-down"></i>
 					</div>
 				</div>
 			</div>
 		</div>	
+		<mat-paginator #paginatorBottom 
+			[length]="length"
+           	[pageSize]="pageSize"
+           	[pageSizeOptions]="pageSizeOptions"
+           	(page)="pageEvent = onChangePageBottom($event)">
+		</mat-paginator>
 	</div>	
 </div>

@@ -1,0 +1,14 @@
+.btn{
+	width: 100%;
+}
+
+.radio-sexe{
+	display: inline-block;
+	margin-right: 5%;
+}
+
+.radio-buttons{
+    width: 100%;
+    display: block;
+    text-align: center;
+}

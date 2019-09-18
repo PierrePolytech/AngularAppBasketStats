@@ -1,4 +1,4 @@
-import { Injectable, Injector } from '@angular/core';
+import { Injectable } from '@angular/core';
 import {
   HttpRequest,
   HttpHandler,
@@ -16,9 +16,7 @@ const helper = new JwtHelperService();
 export class AuthInterceptor implements HttpInterceptor {
 
     constructor(
-        private injector: Injector
     ) { }
-    
     
     intercept(req: HttpRequest<any>,
               next: HttpHandler): Observable<HttpEvent<any>> { 

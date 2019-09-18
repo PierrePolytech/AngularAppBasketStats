@@ -1,27 +1,25 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
-import { MatDialogRef } from '@angular/material';
+import { Router, ActivatedRoute} from '@angular/router';
 import { UserService } from 'src/app/shared/user.service';
 import { UserConnection } from 'src/app/shared/userConnection';
 
 @Component({
-  selector: 'app-modal-login',
-  templateUrl: './modal-login.component.html',
-  styleUrls: ['./modal-login.component.css']
+  selector: 'app-vue-login',
+  templateUrl: './vue-login.component.html',
+  styleUrls: ['./vue-login.component.css']
 })
-export class ModalLoginComponent implements OnInit {
-
-    
+export class VueLoginComponent implements OnInit {
     loginForm = new FormGroup({
         username: new FormControl(''),
         password: new FormControl('')
     });
-
+    
     constructor(
-        public userService: UserService,
-        public dialogRef: MatDialogRef<ModalLoginComponent>
-    ) {
-    }
+        private route: ActivatedRoute,
+        private router: Router,
+        public userService: UserService
+    ) { }
 
     ngOnInit() {
     }
@@ -32,13 +30,13 @@ export class ModalLoginComponent implements OnInit {
         user.password = this.loginForm.value.password;
         this.userService.connectUser(user).subscribe(
             success => {
-                this.dialogRef.close(false);
+                if(this.route.snapshot.queryParams.returnUrl) {
+                    this.router.navigate([this.route.snapshot.queryParams.returnUrl]);
+                }else {
+                    this.router.navigate(['/']);
+                }
             },
             error => alert(error)
         );
-    }
-    
-    onNoClick(): void {
-        this.dialogRef.close(false);
     }
 }

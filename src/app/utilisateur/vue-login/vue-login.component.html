@@ -1,8 +1,8 @@
 <form class="form-login" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-    <h1 mat-dialog-title>
-        Vous avez déjà un compte ?
+    <h1>
+        Se connecter à BasketStats
     </h1>
-    <div mat-dialog-content class="div-form-create">
+    <div class="div-form-create">
         <mat-form-field appearance="outline" class="full-width">
             <mat-label>Adresse mail ou identifiant</mat-label>
             <input formControlName="username" matInput>
@@ -12,7 +12,7 @@
             <input type="password" formControlName="password" matInput>
         </mat-form-field>
     </div>
-    <div mat-dialog-actions>
+    <div>
         <button type="submit" class="btn btn-success">Se connecter</button>
     </div>
 </form>

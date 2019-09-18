@@ -1,6 +1,6 @@
 <mat-form-field appearance="outline" class="full-width">
     <mat-label>Ville du club</mat-label>
-    <mat-chip-list #chipList>
+    <mat-chip-list #chipList required [errorStateMatcher]="matcher">
         <mat-chip
             *ngFor="let ville of villesChoisi"
             [selectable]="true"
@@ -18,7 +18,8 @@
         [matAutocomplete]="auto"
         [matChipInputFor]="chipList"
         [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-        [matChipInputAddOnBlur]="false">
+        [matChipInputAddOnBlur]="false"
+        (blur)="onBlur()">
     </mat-chip-list>
     <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
         <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
@@ -31,4 +32,5 @@
             </mat-option>
         </ng-container>
     </mat-autocomplete>
+    <mat-error>Veuillez sélectionner au moins une ville</mat-error>
 </mat-form-field>

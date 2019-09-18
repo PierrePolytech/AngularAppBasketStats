@@ -28,6 +28,14 @@ export class EquipeService {
       catchError(this.handleError)
     );
   }
+    
+  getMesEquipes(): Observable<Equipe> {
+    return this.http.get<Equipe>(this.apiURL + '/mesequipes')
+    .pipe(
+      retry(1),
+      catchError(this.handleError)
+    );
+  }
 
   getEquipe(id): Observable<Equipe> {
     return this.http.get<Equipe>(this.apiURL + '/equipe/' + id)

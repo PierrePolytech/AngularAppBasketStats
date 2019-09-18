@@ -1,65 +1,81 @@
-<div class="div-create-club col-lg-10 offset-lg-1 col-md-10 offset-md-1 col-sm-12 col-xs-12">
+<div class="div-create-club col-lg-6 offset-lg-3 col-md-8 offset-md-2 col-sm-12 col-xs-12">
     <div class="row">
         <div class="div-form-create">
             <h1 class="titre-form">Créer votre club</h1>
             <form class="form-club" [formGroup]="clubForm" (ngSubmit)="onSubmit()">
-                <mat-form-field appearance="outline" class="full-width">
-                    <mat-label>Nom du club</mat-label>
-                    <input formControlName="nom" matInput>
+            	<div class="full-width">
+	                <mat-form-field appearance="outline" class="half-width-input-gauche">
+	                    <mat-label>Nom du club</mat-label>
+	                    <input formControlName="nomcomplet" matInput required >
+	                    <mat-error *ngIf="f.nomcomplet.hasError('required')">
+					    	Veuillez entrer un nom de club
+					    </mat-error>
+					    <mat-error *ngIf="f.nomcomplet.hasError('minlength')">
+					    	Le nom de club doit contenir au moins 3 caractères
+					    </mat-error>
+					    <mat-error *ngIf="f.nomcomplet.hasError('maxlength')">
+					    	Le nom de club doit contenir au maximum 200 caractères
+					    </mat-error>
+	                </mat-form-field>
+	                <mat-form-field appearance="outline" class="half-width-input-droite">
+	                    <mat-label>Acronyme du club</mat-label>
+	                    <input formControlName="nom" matInput required class="uppercase">
+	                    <mat-error *ngIf="f.nom.hasError('required')">
+					    	Veuillez entrer un acronyme de club
+					    </mat-error>
+					    <mat-error *ngIf="f.nom.hasError('minlength')">
+					    	L'acronyme de club doit contenir au moins 2 caractères
+					    </mat-error>
+					    <mat-error *ngIf="f.nom.hasError('maxlength')">
+					    	L'acronyme de club doit contenir au maximum 200 caractères
+					    </mat-error>
+	                </mat-form-field>
+	            </div>
+	            <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Adresse internet du club (URL)</mat-label>
+                    <input formControlName="url" matInput required class="lowercase" (keyup)="isExistURL()" >
+                    <mat-hint *ngIf="clubForm.value.url&&!f.url.hasError('required')&&!f.url.hasError('minlength')&&!f.url.hasError('maxlength'); else messageURL">L'adresse Internet de votre club est : http://localhost:4200/club/{{clubForm.value.url | lowercase}}</mat-hint>
+                    <ng-template #messageURL><mat-hint>Une adresse Internet doit être composée uniquement de minuscules</mat-hint></ng-template>
+                    <mat-error *ngIf="f.url.hasError('required')">
+				    	Veuillez entrer l'adresse internet du club
+				    </mat-error>
+				    <mat-error *ngIf="f.url.hasError('minlength')">
+				    	L'adresse internet du club doit contenir au moins 3 caractères
+				    </mat-error>
+				    <mat-error *ngIf="f.url.hasError('maxlength')">
+				    	L'adresse internet du club doit contenir au maximum 15 caractères
+				    </mat-error>
+				    <mat-error *ngIf="f.url.hasError('urlexist')">
+				    	L'url choisi existe déjà, veuillez en choisir une nouvelle
+				    </mat-error>
                 </mat-form-field>
                 <mat-form-field appearance="outline" class="full-width">
                     <mat-label>Code du club</mat-label>
-                    <input formControlName="codeClub" matInput>
+                    <input formControlName="codeClub" matInput required>
+                    <mat-error *ngIf="f.codeClub.hasError('required')">
+				    	Veuillez entrer le code du club
+				    </mat-error>
+				    <mat-error *ngIf="f.codeClub.hasError('minlength')">
+				    	Le code du club doit contenir au moins 2 caractères
+				    </mat-error>
+				    <mat-error *ngIf="f.codeClub.hasError('maxlength')">
+				    	Le code du club doit contenir au maximum 50 caractères
+				    </mat-error>
                 </mat-form-field>
                 <app-autocompletecity (eventVilles)="getVilles($event)"></app-autocompletecity>
                 <mat-form-field appearance="outline" class="full-width">
                     <mat-label>Sport</mat-label>
-                    <mat-select name="sports" formControlName="sport">
+                    <mat-select name="sports" formControlName="sport" required>
                         <mat-option *ngFor="let sport of sports" [value]="sport.nom">
                             {{sport.nom}}
                         </mat-option>
                     </mat-select>
+                    <mat-error *ngIf="f.sport.hasError('required')">
+				    	Veuillez choisir un sport pour votre club
+				    </mat-error>
                 </mat-form-field>
                 <button type="submit" class="btn btn-success create-club"> <i class="fa fa-plus-circle"></i> Créer le club</button>
             </form>
-        </div>
-        <div class="div-diapo">
-            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-                <ol class="carousel-indicators">
-                    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-                    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-                </ol>
-                <div class="carousel-inner" role="listbox">
-                    <div class="carousel-item active">
-                        <img class="d-block img-fluid" src="assets/img/fondlogin1.jpg">
-                        <div class="carousel-caption d-none d-md-block">
-                            <div class="banner-text">
-                                <h2>Gérer votre équipe et vos membres</h2>
-                                <p class="text">Simplifiez la gestion de vos équipes et membres</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="carousel-item">
-                        <img class="d-block img-fluid" src="assets/img/fondlogin2.jpg">
-                        <div class="carousel-caption d-none d-md-block">
-                            <div class="banner-text">
-                                <h2>Gérer la vie de votre équipe</h2>
-                                <p class="text">Facilité la vie de vos responsables d'équipes (Calendrier, Gestion des présences, Convocations aux matchs, ...)</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="carousel-item">
-                        <img class="d-block img-fluid" src="assets/img/fondlogin2.jpg">
-                        <div class="carousel-caption d-none d-md-block">
-                            <div class="banner-text">
-                                <h2>Suivi de vos joueurs</h2>
-                                <p class="text">Ouvré un ensemble de fonctionnalités à vos joueurs (Gestion de ses statistiques, notification des évenements du club, ...)</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 </div>

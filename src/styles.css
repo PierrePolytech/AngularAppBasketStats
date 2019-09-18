@@ -3,3 +3,35 @@
 @import '../node_modules/flatpickr/dist/flatpickr.css';
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+.full-width {
+  width: 100%;
+}
+
+.half-width-input-gauche, .half-width-input-droite {
+  width: 45%;
+  display: inline-block;
+}
+
+.half-width-input-gauche{
+  margin-right: 10%;
+}
+
+
+.uppercase{
+	text-transform: uppercase;
+}
+
+.lowercase{
+	text-transform: lowercase;
+}
+
+.titre-center{
+	text-align: center;
+}
+
+.div-form-create{
+	margin-top: 2%;
+	margin-bottom: 2%;
+}

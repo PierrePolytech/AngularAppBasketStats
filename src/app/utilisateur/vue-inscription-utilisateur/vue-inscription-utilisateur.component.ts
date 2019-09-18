@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {FormControl, FormGroup} from '@angular/forms';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 import { UserService } from 'src/app/shared/user.service';
 import { JoueurService } from 'src/app/shared/joueur.service';
 import { Joueur } from 'src/app/shared/joueur';
@@ -14,14 +14,17 @@ import { DateAdapter } from '@angular/material';
 })
 export class VueInscriptionUtilisateurComponent implements OnInit {
     inscriptionForm = new FormGroup({
-        nom: new FormControl(''),
-        prenom: new FormControl(''),
-        email: new FormControl(''),
-        identifiant: new FormControl(''),
-        motdepasse: new FormControl(''),
-        datenaissance: new FormControl(''),
-        sexe: new FormControl(''),
+        nom: new FormControl('',{validators : [Validators.required, Validators.minLength(2), Validators.maxLength(200)], updateOn: 'blur'}),
+        prenom: new FormControl('',{validators : [Validators.required, Validators.minLength(2), Validators.maxLength(200)], updateOn: 'blur'}),
+        email: new FormControl('',{validators : [Validators.required], updateOn: 'blur'}),
+        identifiant: new FormControl('',{validators : [Validators.required, Validators.minLength(2), Validators.maxLength(50)], updateOn: 'blur'}),
+        motdepasse: new FormControl('',{validators : [Validators.required, Validators.minLength(6), Validators.maxLength(200)], updateOn: 'blur'}),
+        datenaissance: new FormControl('',{validators : [Validators.required], updateOn: 'blur'}),
+        sexe: new FormControl('',{validators : [Validators.required], updateOn: 'blur'}),
     });
+    
+    get f() { return this.inscriptionForm.controls; }
+    
     constructor(
         private adapter: DateAdapter<any>,
         public userService: UserService,

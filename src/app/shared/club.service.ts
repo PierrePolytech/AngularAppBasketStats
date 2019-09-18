@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Club } from '../shared/club';
+import { Page } from '../shared/page';
 import { Observable, throwError } from 'rxjs';
 import { retry, catchError } from 'rxjs/operators';
 
@@ -30,8 +31,7 @@ export class ClubService {
   getClubs(): Observable<Club> {
     return this.http.get<Club>(this.apiURL + '/clubs')
     .pipe(
-      retry(1),
-      catchError(this.handleError)
+      retry(1)
     );
   }
 
@@ -39,16 +39,22 @@ export class ClubService {
   getClub(id): Observable<Club> {
     return this.http.get<Club>(this.apiURL + '/club/' + id)
     .pipe(
-      retry(1),
-      catchError(this.handleError)
+      retry(1)
+    );
+  }
+    
+  // HttpClient API get() method => Fetch club
+  getClubByURL(url): Observable<Club> {
+    return this.http.get<Club>(this.apiURL + '/club/' + url)
+    .pipe(
+      retry(1)
     );
   }
 
-  searchClub(nom) {
-    return this.http.get<Club>(this.apiURL + '/clubs/results?search_query=' + nom, this.httpOptions)
+  searchClub(nom, page, size) {
+    return this.http.get<Page>(this.apiURL + '/clubs/results?search_query=' + nom + '&page=' + page + '&size=' + size , this.httpOptions)
     .pipe(
-      retry(1),
-      catchError(this.handleError)
+      retry(1)
     );
   }
 
@@ -56,8 +62,7 @@ export class ClubService {
   createClub(club): Observable<Club> {
     return this.http.post<Club>(this.apiURL + '/club', JSON.stringify(club), this.httpOptions)
     .pipe(
-      retry(1),
-      catchError(this.handleError)
+      retry(1)
     );
   }
 
@@ -65,8 +70,7 @@ export class ClubService {
   updateClub(id, club): Observable<Club> {
     return this.http.put<Club>(this.apiURL + '/club/' + id, JSON.stringify(club), this.httpOptions)
     .pipe(
-      retry(1),
-      catchError(this.handleError)
+      retry(1)
     );
   }
 
@@ -74,22 +78,14 @@ export class ClubService {
   deleteClub(id) {
     return this.http.delete<Club>(this.apiURL + '/club/' + id, this.httpOptions)
     .pipe(
-      retry(1),
-      catchError(this.handleError)
+      retry(1)
     );
   }
 
-  // Error handling
-  handleError(error) {
-     let errorMessage = '';
-     if (error.error instanceof ErrorEvent) {
-       // Get client-side error
-       errorMessage = error.error.message;
-     } else {
-       // Get server-side error
-       errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
-     }
-     //window.alert(errorMessage);
-     return throwError(error);
+  existUrlClub(url) {
+    return this.http.get<boolean>(this.apiURL + '/club/exist?url=' + url, this.httpOptions)
+    .pipe(
+      retry(1)
+    );
   }
 }
